@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "StaticPages" do
 
 
-  let(:base_title) { "Ruby on Rails Tutorial Sample App" }
+  let(:base_title) { "Ithaca Generator Membership" }
 
   subject { page }
 
@@ -14,11 +14,19 @@ describe "StaticPages" do
 
   describe "Home page" do
     before {visit root_path}
-    let(:heading)    {'Sample App'}
+    let(:heading)    {'Ithaca Generator Membership'}
     let(:page_title) {''}
 
     it_should_behave_like "all static pages"
     it { should_not have_title('| Home') }
+  end
+
+  describe "Copyrights page" do
+    before {visit copyrights_path}
+    let(:heading) {'Copyright Licenses'}
+    let(:page_title) {'Copyrights'}
+
+    it_should_behave_like "all static pages"
   end
 
   describe "Help page" do
@@ -56,7 +64,7 @@ describe "StaticPages" do
     click_link "Home"
     click_link "Sign up now!"
     expect(page).to have_title(full_title('Sign up'))
-    click_link "sample app"
-    expect(page).to have_title(full_title(''))
+ #   click_link "IG Membership"
+ #   expect(page).to have_title(full_title(''))
   end
 end
