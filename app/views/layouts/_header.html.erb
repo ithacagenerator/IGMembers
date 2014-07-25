@@ -1,17 +1,15 @@
-    <header class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-      <nav  role="navigation">
-      <div class="navbar-header">
+    <header class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container">
           <%= link_to image_tag('ithacageneratorlogo.png',
-	      alt:"Ithaca Generator", size: '116x33'), root_path, id: "logo" %>
-        </div>
-          
-            <ul class="nav navbar-nav navbar-right">
+        alt:"Ithaca Generator", size: '116x33'), root_path, id: "logo" %>
+          <nav>
+            <ul class="nav pull-right">
               <li><%= link_to "Home",     root_path %></li>
               <li><%= link_to "Help",     help_path %></li>
               <% if signed_in? %>
               <li><%= link_to "Users", users_path %></li>
-              <li class="dropdown">
+              <li id="fat-menu" class="dropdown">
                 <a href="#" class="dropdown-toggle"
                    data-toggle="dropdown">
                   Account <b class="caret"></b>

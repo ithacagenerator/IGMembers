@@ -3,7 +3,6 @@
 /* mixins, variables, etc. */
 
 $grayMediumLight: #eaeaea;
-$gray: rgb(51, 51, 51);
 
 @mixin box_sizing {
     -moz-box-sizing: border-box;
@@ -56,6 +55,7 @@ h2 {
     margin-bottom: 30px;
     text-align: center;
     font-weight: normal;
+    color: $grayLight;
 }
 
 p {
@@ -88,11 +88,11 @@ footer {
     margin-top: 45px;
     padding-top: 5px;
     border-top: 1px solid $grayMediumLight;
-    color: $gray;
+    color: $grayLight;
     a {
         color: $gray;
         &:hover {
-            color: $gray;
+            color: $grayDarker;
         }
     }
     small {
@@ -123,7 +123,7 @@ footer {
 aside {
     section {
         padding: 10px 0;
-        border-top: 1px solid $gray;
+        border-top: 1px solid $grayLighter;
         &:first-child {
             border: 0;
             padding-top: 0;
@@ -170,7 +170,8 @@ input {
 }
 
 .field_with_errors {
-    @extend .form-group;
+    @extend .control-group;
+    @extent .error;
 }
 
 /* Users index */
@@ -178,11 +179,11 @@ input {
     list-style: none;
     margin: 0;
     li {
-	overflow: auto;
-	padding: 10px 0;
-	border-top: 1px solid $gray;
-	&:last-child {
-	    border-bottom: 1px solid $gray;
-	}
+  overflow: auto;
+  padding: 10px 0;
+  border-top: 1px solid $grayLighter;
+  &:last-child {
+      border-bottom: 1px solid $grayLighter;
+  }
     }
 }
