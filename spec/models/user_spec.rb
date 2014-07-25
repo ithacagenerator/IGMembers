@@ -4,6 +4,8 @@ describe User do
 
   before do
     @user = User.new(name: "Example User", email: "user@example.com",
+      street: "123 Example Way", city: "Exampleville",
+      state: "EX", zip: "00000",
                      password: "foobar", password_confirmation: "foobar" )
   end
 
@@ -17,6 +19,11 @@ describe User do
   it { should respond_to(:remember_token) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:admin) }
+
+  it { should respond_to(:street) }
+  it { should respond_to(:city) }
+  it { should respond_to(:state) }
+  it { should respond_to(:zip) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -39,6 +46,26 @@ describe User do
     before { @user.email = " "}
     it { should_not be_valid }
   end
+
+  describe "when street is not present" do
+    before { @user.street = " "}
+    it { should_not be_valid }
+  end
+  describe "when city is not present" do
+    before { @user.city = " "}
+    it { should_not be_valid }
+  end
+
+  describe "when state is not present" do
+    before { @user.state = " "}
+    it { should_not be_valid }
+  end
+
+  describe "when zip is not present" do
+    before { @user.zip = " "}
+    it { should_not be_valid }
+  end
+
 
   describe "when name is too long" do
     before {@user.name = "a" * 51 }

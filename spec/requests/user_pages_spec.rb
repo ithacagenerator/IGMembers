@@ -84,6 +84,10 @@ describe "UserPages" do
         fill_in "Name", with: "Example User"
         fill_in "Email", with: "user@example.com"
         fill_in "Password", with: "foobar"
+        fill_in "Street", with: "1 Test Way"
+        fill_in "City", with: "Testville"
+        fill_in "State", with: "NY"
+        fill_in "Zip", with: "00000"
         fill_in "Confirm Password", with: "foobar"
       end
 
@@ -122,11 +126,19 @@ describe "UserPages" do
     end
 
     describe "with valid information" do
-      let(:new_name) { "New Name"}
-      let(:new_email) { "new@example.com"}
+      let(:new_name) { "New Name" }
+      let(:new_email) { "new@example.com" }
+      let(:new_street) { "1 New Road" }
+      let(:new_city) { "Newton" }
+      let(:new_state) { "NY" }
+      let(:new_zip) { "33333" }
       before do
         fill_in "Name", with: new_name
         fill_in "Email", with: new_email
+        fill_in "Street", with: new_street
+        fill_in "City", with: new_city
+        fill_in "State", with: new_state
+        fill_in "Zip", with: new_zip
         fill_in "Password", with: user.password
         fill_in "Confirm Password", with: user.password
         click_button "Save changes"
