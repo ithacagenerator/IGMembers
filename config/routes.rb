@@ -1,4 +1,6 @@
 SampleApp::Application.routes.draw do
+  resources :membership_types
+
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   root 'static_pages#home'

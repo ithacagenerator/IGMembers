@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140725033010) do
+ActiveRecord::Schema.define(version: 20140726003111) do
+
+  create_table "membership_types", force: true do |t|
+    t.string   "name"
+    t.decimal  "monthlycost"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"
