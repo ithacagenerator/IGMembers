@@ -3,9 +3,11 @@ require 'spec_helper'
 describe User do
 
   before do
+    membertype = MembershipType.find_by_name("Basic")
     @user = User.new(name: "Example User", email: "user@example.com",
       street: "123 Example Way", city: "Exampleville",
       state: "EX", zip: "00000",
+      membership_type: membertype,
                      password: "foobar", password_confirmation: "foobar" )
   end
 

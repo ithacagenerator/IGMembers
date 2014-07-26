@@ -83,12 +83,12 @@ describe "UserPages" do
       before do
         fill_in "Name", with: "Example User"
         fill_in "Email", with: "user@example.com"
-        fill_in "Password", with: "foobar"
+        fill_in "Password", with: "foobar", match: :prefer_exact
         fill_in "Street", with: "1 Test Way"
         fill_in "City", with: "Testville"
         fill_in "State", with: "NY"
         fill_in "Zip", with: "00000"
-        fill_in "Confirm Password", with: "foobar"
+        fill_in "Confirm Password", with: "foobar", match: :prefer_exact
       end
 
       it "should create a user" do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140726003111) do
+ActiveRecord::Schema.define(version: 20140726013633) do
 
   create_table "membership_types", force: true do |t|
     t.string   "name"
@@ -27,14 +27,17 @@ ActiveRecord::Schema.define(version: 20140726003111) do
     t.datetime "updated_at"
     t.string   "password_digest"
     t.string   "remember_token"
-    t.boolean  "admin",           default: false
+    t.boolean  "admin",              default: false
     t.string   "street"
     t.string   "city"
     t.string   "state"
     t.string   "zip"
+    t.integer  "membership_type_id"
+    t.date     "membership_date"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["membership_type_id"], name: "index_users_on_membership_type_id"
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
 end

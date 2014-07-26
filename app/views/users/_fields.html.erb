@@ -1,22 +1,11 @@
 <%= render 'shared/error_messages' %>
 
-<%= f.label :name %>
-<%= f.text_field :name %>
-
-<%= f.label :email %>
-<%= f.text_field :email %>
-
-<%= f.label :street %>
-<%= f.text_field :street %>
-<%= f.label :city %>
-<%= f.text_field :city %>
-<%= f.label :state %>
-<%= f.text_field :state %>
-<%= f.label :zip %>
-<%= f.text_field :zip %>
-
-<%= f.label :password %>
-<%= f.password_field :password %>
-
-<%= f.label :password_confirmation, "Confirm Password" %>
-<%= f.password_field :password_confirmation %>
+<%= f.input :name %>
+<%= f.input :email %>
+<%= f.input :street %>
+<%= f.input :city %>
+<%= f.input :state %>
+<%= f.input :zip %>
+<%= f.association :membership_type %>
+<%= f.input :password %>
+<%= f.input :password_confirmation, label: "Confirm Password" %>
