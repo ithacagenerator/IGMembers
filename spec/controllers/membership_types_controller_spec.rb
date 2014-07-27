@@ -23,7 +23,7 @@ describe MembershipTypesController do
   # This should return the minimal set of attributes required to create a valid
   # MembershipType. As you add validations to MembershipType, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { { "name" => "MyString", monthlycost: 5 } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -31,10 +31,11 @@ describe MembershipTypesController do
   let(:valid_session) { {} }
 
   describe "GET index" do
+    before { DatabaseCleaner.clean }
     it "assigns all membership_types as @membership_types" do
       membership_type = MembershipType.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:membership_types).should eq([membership_type])
+      assigns(:membership_types).should include(membership_type)
     end
   end
 

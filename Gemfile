@@ -26,6 +26,7 @@ group :test do
   gem 'guard-spork', '1.5.0'
   gem 'childprocess', '0.3.6'
   gem 'factory_girl_rails', '4.2.0'
+  gem 'database_cleaner'
 end
 
 gem 'sass-rails', '4.0.1'

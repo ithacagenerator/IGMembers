@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   belongs_to :membership_type
   validates :membership_type, presence: true
+  validates :membership_date, presence: true
   
   has_secure_password
   validates :password, length: { minimum: 6 }

@@ -8,7 +8,10 @@
       <strong><%= @user.name %></strong><br />
       <%= @user.street %><br />
       <%= "#{@user.city}, #{@user.state} #{@user.zip}" %><br />
-      <abbr title="Email">E:</abbr> <%= @user.email %>
+      <abbr title="Email">E:</abbr> <%= @user.email %> <br />
+      <%= @user.membership_type.name %>
+      Member since 
+      <%= @user.membership_date.to_s %>
     </address>
   </div>
 </div>

@@ -69,6 +69,7 @@ describe "UserPages" do
   end
 
   describe "signup" do
+    before { MembershipType.create(name: "Test", monthlycost: 5 ) }
     before {visit signup_path }
 
     let(:submit) { "Create my account" }
@@ -88,6 +89,9 @@ describe "UserPages" do
         fill_in "City", with: "Testville"
         fill_in "State", with: "NY"
         fill_in "Zip", with: "00000"
+        select "Test", from: "Membership type"
+        select_date Date.today(), from: "user_membership_date"
+        
         fill_in "Confirm Password", with: "foobar", match: :prefer_exact
       end
 

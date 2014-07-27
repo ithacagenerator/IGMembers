@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'spork'
+require 'database_cleaner'
+
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
@@ -16,6 +18,7 @@ Spork.prefork do
   ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
   RSpec.configure do |config|
+
     # ## Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -43,6 +46,7 @@ Spork.prefork do
     #     --seed 1234
     config.order = "random"
     config.include Capybara::DSL
+
   end
   # Loading more in this block will cause your tests to run faster. However,
   # if you change any configuration or code from libraries loaded here, you'll
@@ -130,4 +134,10 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include Capybara::DSL
+end
+
+
+require 'request_macros'
+RSpec.configure do |config|
+  config.include RequestMacros, :type => :request
 end

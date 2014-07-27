@@ -3,11 +3,11 @@ require 'spec_helper'
 describe User do
 
   before do
-    membertype = MembershipType.find_by_name("Basic")
+    membertype = MembershipType.create(name: "Basic", monthlycost: 20 )
     @user = User.new(name: "Example User", email: "user@example.com",
       street: "123 Example Way", city: "Exampleville",
       state: "EX", zip: "00000",
-      membership_type: membertype,
+      membership_type: membertype, membership_date: Date.today(),
                      password: "foobar", password_confirmation: "foobar" )
   end
 
@@ -26,6 +26,8 @@ describe User do
   it { should respond_to(:city) }
   it { should respond_to(:state) }
   it { should respond_to(:zip) }
+
+  it { should respond_to(:membership_type)}
 
   it { should be_valid }
   it { should_not be_admin }
