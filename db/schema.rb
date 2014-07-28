@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140726013633) do
+ActiveRecord::Schema.define(version: 20140730164501) do
+
+  create_table "discounts", force: true do |t|
+    t.string   "name"
+    t.float    "percent"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "discounts_users", id: false, force: true do |t|
+    t.integer "user_id",     null: false
+    t.integer "discount_id", null: false
+  end
 
   create_table "membership_types", force: true do |t|
     t.string   "name"

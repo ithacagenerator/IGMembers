@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pp'
 
 describe "UserPages" do
 
@@ -70,6 +71,8 @@ describe "UserPages" do
 
   describe "signup" do
     before { MembershipType.create(name: "Test", monthlycost: 5 ) }
+    before { Discount.create(name: "Student", percent: 25 ) }
+    before { Discount.create(name: "Family1", percent: 50 ) }
     before {visit signup_path }
 
     let(:submit) { "Create my account" }
@@ -80,6 +83,12 @@ describe "UserPages" do
       end
     end
 
+    it 'check database' do
+      pp Discount.all()
+      pp MembershipType.all()
+    end
+    
+    
     describe "with valid information" do
       before do
         fill_in "Name", with: "Example User"
@@ -106,11 +115,27 @@ describe "UserPages" do
         it {should have_link('Sign out') }
         it {should have_title(user.name) }
         it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+
+        specify { expect(user.reload.discounts).to be_empty }
+
+      end
+      
+      describe "and one discounts" do
+        before do
+          check "Student"
+          click_button submit
+        end
+        
+        let(:user) { User.find_by(email: 'user@example.com') }
+        specify { expect(user.discounts).to have(1).items }
       end
     end
   end
 
   describe "edit" do
+    before { Discount.create(name: "Student", percent: 25 ) }
+    before { Discount.create(name: "Family1", percent: 50 ) }
+    
     let(:user) {FactoryGirl.create(:user)}
     before do
       sign_in user
@@ -145,14 +170,40 @@ describe "UserPages" do
         fill_in "Zip", with: new_zip
         fill_in "Password", with: user.password
         fill_in "Confirm Password", with: user.password
-        click_button "Save changes"
       end
 
-      it { should have_title(new_name) }
-      it { should have_selector('div.alert.alert-success') }
-      it { should have_link('Sign out', href: signout_path)}
-      specify { expect(user.reload.name).to eq new_name }
-      specify { expect(user.reload.email).to eq new_email }
+      describe "and no discounts" do
+        before do
+          click_button "Save changes"
+        end
+        
+        it { should have_title(new_name) }
+        it { should have_selector('div.alert.alert-success') }
+        it { should have_link('Sign out', href: signout_path)}
+        specify { expect(user.reload.name).to eq new_name }
+        specify { expect(user.reload.email).to eq new_email }
+        
+        specify { expect(user.reload.discounts).to be_empty }
+      end
+
+      describe "and one discounts" do
+        before do
+          check "Student"
+          click_button "Save changes"
+        end
+        
+        it { should have_title(new_name) }
+        it { should have_selector('div.alert.alert-success') }
+        it { should have_link('Sign out', href: signout_path)}
+        specify { expect(user.reload.name).to eq new_name }
+        specify { expect(user.reload.email).to eq new_email }
+        
+        specify { expect(user.reload.discounts).to_not be_empty }
+      end
+      
+      
+      
+      
     end
   end
 end

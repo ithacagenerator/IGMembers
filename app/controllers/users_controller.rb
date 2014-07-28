@@ -48,9 +48,10 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password,
-      :street, :city, :state, :zip, :membership_type_id, :membership_date,
-                                 :password_confirmation)
+    params.require(:user).permit(:name, :email, :password,:password_confirmation,
+      :street, :city, :state, :zip, :membership_type_id,
+      :membership_date, :discount_ids => [])
+                                 
   end
 
   # Before filters

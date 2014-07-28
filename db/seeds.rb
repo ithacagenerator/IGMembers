@@ -12,3 +12,8 @@ MembershipType.create([
     { name: "Extra",      monthlycost:75 },
     { name: "Benefactor", monthlycost:100 },
   ])
+
+Discount.create([
+    { name: "Student", percent: 25},
+    { name: "Family1", percent: 50},
+  ])

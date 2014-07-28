@@ -1,4 +1,6 @@
 SampleApp::Application.routes.draw do
+  resources :discounts
+
   resources :membership_types
 
   resources :users

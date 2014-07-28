@@ -28,6 +28,8 @@ describe User do
   it { should respond_to(:zip) }
 
   it { should respond_to(:membership_type)}
+  it { should respond_to(:membership_date)}
+  it { should respond_to(:discounts)}
 
   it { should be_valid }
   it { should_not be_admin }
