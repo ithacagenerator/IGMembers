@@ -18,7 +18,7 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe MembershipTypesController do
+describe MembershipTypesController, :type => :controller do
   # This should return the minimal set of attributes required to create a valid
   # MembershipType. As you add validations to MembershipType, be sure to
   # adjust the attributes here as well.
@@ -34,7 +34,7 @@ describe MembershipTypesController do
     it "assigns all membership_types as @membership_types" do
       membership_type = MembershipType.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:membership_types).should include(membership_type)
+      expect(assigns(:membership_types)).to include(membership_type)
     end
   end
 
@@ -42,14 +42,14 @@ describe MembershipTypesController do
     it "assigns the requested membership_type as @membership_type" do
       membership_type = MembershipType.create! valid_attributes
       get :show, {:id => membership_type.to_param}, valid_session
-      assigns(:membership_type).should eq(membership_type)
+      expect(assigns(:membership_type)).to eq(membership_type)
     end
   end
 
   describe "GET new" do
     it "assigns a new membership_type as @membership_type" do
       get :new, {}, valid_session
-      assigns(:membership_type).should be_a_new(MembershipType)
+      expect(assigns(:membership_type)).to be_a_new(MembershipType)
     end
   end
 
@@ -57,7 +57,7 @@ describe MembershipTypesController do
     it "assigns the requested membership_type as @membership_type" do
       membership_type = MembershipType.create! valid_attributes
       get :edit, {:id => membership_type.to_param}, valid_session
-      assigns(:membership_type).should eq(membership_type)
+      expect(assigns(:membership_type)).to eq(membership_type)
     end
   end
 
@@ -71,29 +71,29 @@ describe MembershipTypesController do
 
       it "assigns a newly created membership_type as @membership_type" do
         post :create, {:membership_type => valid_attributes}, valid_session
-        assigns(:membership_type).should be_a(MembershipType)
-        assigns(:membership_type).should be_persisted
+        expect(assigns(:membership_type)).to be_a(MembershipType)
+        expect(assigns(:membership_type)).to be_persisted
       end
 
       it "redirects to the created membership_type" do
         post :create, {:membership_type => valid_attributes}, valid_session
-        response.should redirect_to(MembershipType.last)
+        expect(response).to redirect_to(MembershipType.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved membership_type as @membership_type" do
         # Trigger the behavior that occurs when invalid params are submitted
-        MembershipType.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(MembershipType).to receive(:save).and_return(false)
         post :create, {:membership_type => { "name" => "invalid value" }}, valid_session
-        assigns(:membership_type).should be_a_new(MembershipType)
+        expect(assigns(:membership_type)).to be_a_new(MembershipType)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        MembershipType.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(MembershipType).to receive(:save).and_return(false)
         post :create, {:membership_type => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -106,20 +106,20 @@ describe MembershipTypesController do
         # specifies that the MembershipType created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        MembershipType.any_instance.should_receive(:update).with({ "name" => "MyString" })
+        expect_any_instance_of(MembershipType).to receive(:update).with({ "name" => "MyString" })
         put :update, {:id => membership_type.to_param, :membership_type => { "name" => "MyString" }}, valid_session
       end
 
       it "assigns the requested membership_type as @membership_type" do
         membership_type = MembershipType.create! valid_attributes
         put :update, {:id => membership_type.to_param, :membership_type => valid_attributes}, valid_session
-        assigns(:membership_type).should eq(membership_type)
+        expect(assigns(:membership_type)).to eq(membership_type)
       end
 
       it "redirects to the membership_type" do
         membership_type = MembershipType.create! valid_attributes
         put :update, {:id => membership_type.to_param, :membership_type => valid_attributes}, valid_session
-        response.should redirect_to(membership_type)
+        expect(response).to redirect_to(membership_type)
       end
     end
 
@@ -127,17 +127,17 @@ describe MembershipTypesController do
       it "assigns the membership_type as @membership_type" do
         membership_type = MembershipType.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        MembershipType.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(MembershipType).to receive(:save).and_return(false)
         put :update, {:id => membership_type.to_param, :membership_type => { "name" => "invalid value" }}, valid_session
-        assigns(:membership_type).should eq(membership_type)
+        expect(assigns(:membership_type)).to eq(membership_type)
       end
 
       it "re-renders the 'edit' template" do
         membership_type = MembershipType.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        MembershipType.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(MembershipType).to receive(:save).and_return(false)
         put :update, {:id => membership_type.to_param, :membership_type => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -153,7 +153,7 @@ describe MembershipTypesController do
     it "redirects to the membership_types list" do
       membership_type = MembershipType.create! valid_attributes
       delete :destroy, {:id => membership_type.to_param}, valid_session
-      response.should redirect_to(membership_types_url)
+      expect(response).to redirect_to(membership_types_url)
     end
   end
 

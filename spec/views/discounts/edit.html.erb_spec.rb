@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "discounts/edit" do
+describe "discounts/edit", :type => :view do
   before(:each) do
     @discount = assign(:discount, stub_model(Discount,
       :name => "MyString",

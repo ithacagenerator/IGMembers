@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "membership_types/index" do
+describe "membership_types/index", :type => :view do
   before(:each) do
     assign(:membership_types, [
       stub_model(MembershipType,

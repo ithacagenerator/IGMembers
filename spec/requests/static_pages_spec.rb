@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "StaticPages" do
+describe "StaticPages", :type => :request do
 
 
   let(:base_title) { "Ithaca Generator Membership" }
@@ -8,8 +8,8 @@ describe "StaticPages" do
   subject { page }
 
   shared_examples_for "all static pages" do
-    it { should have_selector('h1', text: heading) }
-    it { should have_title(full_title(page_title)) }
+    it { is_expected.to have_selector('h1', text: heading) }
+    it { is_expected.to have_title(full_title(page_title)) }
   end
 
   describe "Home page" do
@@ -18,7 +18,7 @@ describe "StaticPages" do
     let(:page_title) {''}
 
     it_should_behave_like "all static pages"
-    it { should_not have_title('| Home') }
+    it { is_expected.not_to have_title('| Home') }
   end
 
   describe "Copyrights page" do

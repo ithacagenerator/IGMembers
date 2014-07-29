@@ -28,13 +28,14 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(token.to_s)
   end
 
+  def cost
+    self.membership_type.monthlycost
+  end
+
   private
 
   def create_remember_token
     self.remember_token = User.digest(User.new_remember_token)
   end
 
-  def cost
-    self.membership_type.monthlycost
-  end
 end

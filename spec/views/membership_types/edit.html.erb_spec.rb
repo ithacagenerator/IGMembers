@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "membership_types/edit" do
+describe "membership_types/edit", :type => :view do
   before(:each) do
     @membership_type = assign(:membership_type, stub_model(MembershipType,
       :name => "MyString",

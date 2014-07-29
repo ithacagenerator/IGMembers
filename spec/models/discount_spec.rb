@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Discount do
+describe Discount, :type => :model do
 
     before do
     @discount = Discount.new(name: "Example Discount", percent: 25)
@@ -8,7 +8,7 @@ describe Discount do
 
   subject { @discount }
   
-  it { should respond_to(:name)}
-  it { should respond_to(:percent)}
-  it { should respond_to(:users)}
+  it { is_expected.to respond_to(:name)}
+  it { is_expected.to respond_to(:percent)}
+  it { is_expected.to respond_to(:users)}
 end

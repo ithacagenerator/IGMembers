@@ -18,7 +18,7 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe DiscountsController do
+describe DiscountsController, :type => :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Discount. As you add validations to Discount, be sure to
@@ -34,7 +34,7 @@ describe DiscountsController do
     it "assigns all discounts as @discounts" do
       discount = Discount.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:discounts).should eq([discount])
+      expect(assigns(:discounts)).to eq([discount])
     end
   end
 
@@ -42,14 +42,14 @@ describe DiscountsController do
     it "assigns the requested discount as @discount" do
       discount = Discount.create! valid_attributes
       get :show, {:id => discount.to_param}, valid_session
-      assigns(:discount).should eq(discount)
+      expect(assigns(:discount)).to eq(discount)
     end
   end
 
   describe "GET new" do
     it "assigns a new discount as @discount" do
       get :new, {}, valid_session
-      assigns(:discount).should be_a_new(Discount)
+      expect(assigns(:discount)).to be_a_new(Discount)
     end
   end
 
@@ -57,7 +57,7 @@ describe DiscountsController do
     it "assigns the requested discount as @discount" do
       discount = Discount.create! valid_attributes
       get :edit, {:id => discount.to_param}, valid_session
-      assigns(:discount).should eq(discount)
+      expect(assigns(:discount)).to eq(discount)
     end
   end
 
@@ -71,29 +71,29 @@ describe DiscountsController do
 
       it "assigns a newly created discount as @discount" do
         post :create, {:discount => valid_attributes}, valid_session
-        assigns(:discount).should be_a(Discount)
-        assigns(:discount).should be_persisted
+        expect(assigns(:discount)).to be_a(Discount)
+        expect(assigns(:discount)).to be_persisted
       end
 
       it "redirects to the created discount" do
         post :create, {:discount => valid_attributes}, valid_session
-        response.should redirect_to(Discount.last)
+        expect(response).to redirect_to(Discount.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved discount as @discount" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Discount.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Discount).to receive(:save).and_return(false)
         post :create, {:discount => { "name" => "invalid value" }}, valid_session
-        assigns(:discount).should be_a_new(Discount)
+        expect(assigns(:discount)).to be_a_new(Discount)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Discount.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Discount).to receive(:save).and_return(false)
         post :create, {:discount => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -106,20 +106,20 @@ describe DiscountsController do
         # specifies that the Discount created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Discount.any_instance.should_receive(:update).with({ "name" => "MyString" })
+        expect_any_instance_of(Discount).to receive(:update).with({ "name" => "MyString" })
         put :update, {:id => discount.to_param, :discount => { "name" => "MyString" }}, valid_session
       end
 
       it "assigns the requested discount as @discount" do
         discount = Discount.create! valid_attributes
         put :update, {:id => discount.to_param, :discount => valid_attributes}, valid_session
-        assigns(:discount).should eq(discount)
+        expect(assigns(:discount)).to eq(discount)
       end
 
       it "redirects to the discount" do
         discount = Discount.create! valid_attributes
         put :update, {:id => discount.to_param, :discount => valid_attributes}, valid_session
-        response.should redirect_to(discount)
+        expect(response).to redirect_to(discount)
       end
     end
 
@@ -127,17 +127,17 @@ describe DiscountsController do
       it "assigns the discount as @discount" do
         discount = Discount.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Discount.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Discount).to receive(:save).and_return(false)
         put :update, {:id => discount.to_param, :discount => { "name" => "invalid value" }}, valid_session
-        assigns(:discount).should eq(discount)
+        expect(assigns(:discount)).to eq(discount)
       end
 
       it "re-renders the 'edit' template" do
         discount = Discount.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Discount.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Discount).to receive(:save).and_return(false)
         put :update, {:id => discount.to_param, :discount => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -153,7 +153,7 @@ describe DiscountsController do
     it "redirects to the discounts list" do
       discount = Discount.create! valid_attributes
       delete :destroy, {:id => discount.to_param}, valid_session
-      response.should redirect_to(discounts_url)
+      expect(response).to redirect_to(discounts_url)
     end
   end
 

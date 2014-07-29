@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'pp'
 
-describe "UserPages" do
+describe "UserPages", :type => :request do
 
   subject {page}
 
@@ -14,15 +14,15 @@ describe "UserPages" do
       visit users_path
     end
 
-    it {should have_title('All users')}
-    it {should have_content('All users')}
+    it {is_expected.to have_title('All users')}
+    it {is_expected.to have_content('All users')}
 
     describe "pagination" do
 
       before(:all) { 30.times {FactoryGirl.create(:user) } }
       after(:all) { User.delete_all }
 
-      it {should have_selector('div.pagination')}
+      it {is_expected.to have_selector('div.pagination')}
       
       it "should list each user" do
         User.paginate(page: 1).each do |user|
@@ -33,7 +33,7 @@ describe "UserPages" do
 
     describe "delete links" do
 
-      it { should_not have_link('delete') }
+      it { is_expected.not_to have_link('delete') }
 
       describe "as an admin user" do
         let(:admin) { FactoryGirl.create(:admin) }
@@ -42,13 +42,13 @@ describe "UserPages" do
           visit users_path
         end
 
-        it { should have_link('delete', href: user_path(User.first))}
+        it { is_expected.to have_link('delete', href: user_path(User.first))}
         it "should be able to delete another user" do
           expect do
             click_link('delete', match: :first)
           end.to change(User, :count).by(-1)
         end
-        it {should_not have_link('delete', href: user_path(admin))}
+        it {is_expected.not_to have_link('delete', href: user_path(admin))}
       end
     end    
   end
@@ -58,15 +58,15 @@ describe "UserPages" do
     let(:user) { FactoryGirl.create(:user)}
     before {visit user_path(user) }
 
-    it {should have_content(user.name)}
-    it {should have_title(user.name)}
+    it {is_expected.to have_content(user.name)}
+    it {is_expected.to have_title(user.name)}
   end
 
   describe "signup page" do
     before {visit signup_path}
 
-    it {should have_content('Sign up') }
-    it {should have_title(full_title('Sign up')) }
+    it {is_expected.to have_content('Sign up') }
+    it {is_expected.to have_title(full_title('Sign up')) }
   end
 
   describe "signup" do
@@ -106,9 +106,9 @@ describe "UserPages" do
         before {click_button submit}
         let(:user) { User.find_by(email: 'user@example.com') }
 
-        it {should have_link('Sign out') }
-        it {should have_title(user.name) }
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it {is_expected.to have_link('Sign out') }
+        it {is_expected.to have_title(user.name) }
+        it { is_expected.to have_selector('div.alert.alert-success', text: 'Welcome') }
 
         specify { expect(user.reload.discounts).to be_empty }
 
@@ -121,7 +121,7 @@ describe "UserPages" do
         end
         
         let(:user) { User.find_by(email: 'user@example.com') }
-        specify { expect(user.discounts).to have(1).items }
+        specify { expect(user.discounts.size).to eq(1) }
       end
     end
   end
@@ -137,15 +137,15 @@ describe "UserPages" do
     end
 
     describe "page" do
-      it { should have_content("Update your profile")}
-      it { should have_title("Edit user") }
-      it { should have_link('change', href: 'http://gravatar.com/emails')}
+      it { is_expected.to have_content("Update your profile")}
+      it { is_expected.to have_title("Edit user") }
+      it { is_expected.to have_link('change', href: 'http://gravatar.com/emails')}
     end
 
     describe "with invalid information" do
       before {click_button "Save changes" }
 
-      it { should have_content('error')}
+      it { is_expected.to have_content('error')}
     end
 
     describe "with valid information" do
@@ -171,9 +171,9 @@ describe "UserPages" do
           click_button "Save changes"
         end
         
-        it { should have_title(new_name) }
-        it { should have_selector('div.alert.alert-success') }
-        it { should have_link('Sign out', href: signout_path)}
+        it { is_expected.to have_title(new_name) }
+        it { is_expected.to have_selector('div.alert.alert-success') }
+        it { is_expected.to have_link('Sign out', href: signout_path)}
         specify { expect(user.reload.name).to eq new_name }
         specify { expect(user.reload.email).to eq new_email }
         
@@ -186,9 +186,9 @@ describe "UserPages" do
           click_button "Save changes"
         end
         
-        it { should have_title(new_name) }
-        it { should have_selector('div.alert.alert-success') }
-        it { should have_link('Sign out', href: signout_path)}
+        it { is_expected.to have_title(new_name) }
+        it { is_expected.to have_selector('div.alert.alert-success') }
+        it { is_expected.to have_link('Sign out', href: signout_path)}
         specify { expect(user.reload.name).to eq new_name }
         specify { expect(user.reload.email).to eq new_email }
         

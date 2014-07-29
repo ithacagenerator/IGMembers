@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "discounts/show" do
+describe "discounts/show", :type => :view do
   before(:each) do
     @discount = assign(:discount, stub_model(Discount,
       :name => "Name",
@@ -11,7 +11,7 @@ describe "discounts/show" do
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Name/)
-    rendered.should match(/1.5/)
+    expect(rendered).to match(/Name/)
+    expect(rendered).to match(/1.5/)
   end
 end
