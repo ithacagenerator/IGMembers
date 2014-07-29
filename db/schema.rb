@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730164501) do
+ActiveRecord::Schema.define(version: 20140730164502) do
 
   create_table "discounts", force: true do |t|
     t.string   "name"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140730164501) do
     t.string   "zip"
     t.integer  "membership_type_id"
     t.date     "membership_date"
+    t.string   "gnucash_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

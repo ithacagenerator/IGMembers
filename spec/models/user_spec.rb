@@ -1,9 +1,24 @@
 require 'spec_helper'
+require 'pp'
 
 describe User do
 
+#  before(:all) do
+#    MembershipType.create(name: "Basic", monthlycost: 20 )
+#    MembershipType.create(name: "Extra", monthlycost: 75 )
+#    Discount.create(name: "Student", percent: 25 )
+#    Discount.create(name: "Family1", percent: 50 )
+#  end
+#  after(:all) do
+#    MembershipType.delete_all()
+#    Discount.delete_all()
+#  end
+  
+  
+  
   before do
-    membertype = MembershipType.create(name: "Basic", monthlycost: 20 )
+ #   pp(MembershipType.all)
+    membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
     @user = User.new(name: "Example User", email: "user@example.com",
       street: "123 Example Way", city: "Exampleville",
       state: "EX", zip: "00000",
@@ -30,6 +45,8 @@ describe User do
   it { should respond_to(:membership_type)}
   it { should respond_to(:membership_date)}
   it { should respond_to(:discounts)}
+
+  it { should respond_to(:gnucash_id)}
 
   it { should be_valid }
   it { should_not be_admin }
@@ -145,5 +162,13 @@ describe User do
   describe "remember token" do
     before {@user.save}
     its(:remember_token) { should_not be_blank }
+  end
+
+  describe "can compute cost" do
+    its(:cost) { should eq(20) }
+
+    describe "with a discount" do
+      before
+    end
   end
 end
