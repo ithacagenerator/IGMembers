@@ -83,12 +83,6 @@ describe "UserPages" do
       end
     end
 
-    it 'check database' do
-      pp Discount.all()
-      pp MembershipType.all()
-    end
-    
-    
     describe "with valid information" do
       before do
         fill_in "Name", with: "Example User"
