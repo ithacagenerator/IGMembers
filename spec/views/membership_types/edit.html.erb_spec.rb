@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'rspec/active_model/mocks'
 
 describe "membership_types/edit", :type => :view do
   before(:each) do

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'rspec/active_model/mocks'
 
 describe "discounts/show", :type => :view do
   before(:each) do
