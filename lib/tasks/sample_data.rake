@@ -9,7 +9,10 @@ namespace :db do
       zip: Faker::Address.zip,
       password: "foobar",
       password_confirmation: "foobar",
+      membership_type: MembershipType.find_by_name("Extra"),
+      membership_date:  Date.today(),
       admin: true)
+    basic = MembershipType.find_by_name("Basic")
     99.times do |n|
       name = Faker::Name.name
       email = "example-#{n+1}@railstutorial.org"
@@ -21,7 +24,9 @@ namespace :db do
         state: Faker::Address.state_abbr,
         zip: Faker::Address.zip,
         password: password,
-        password_confirmation: password)
+        password_confirmation: password,
+        membership_type: basic,
+        membership_date:  Date.today())
     end
   end
 end
