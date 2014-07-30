@@ -94,7 +94,9 @@ describe "UserPages", :type => :request do
         fill_in "Zip", with: "00000"
         select "Test", from: "Membership type"
         select_date Date.today(), from: "user_membership_date"
-        
+
+        fill_in "GnuCash ID", with: "EXM"
+
         fill_in "Confirm Password", with: "foobar", match: :prefer_exact
       end
 
@@ -111,6 +113,7 @@ describe "UserPages", :type => :request do
         it { is_expected.to have_selector('div.alert.alert-success', text: 'Welcome') }
 
         specify { expect(user.reload.discounts).to be_empty }
+        specify { expect(user.reload.gnucash_id).to eq("EXM") }
 
       end
       
@@ -161,7 +164,7 @@ describe "UserPages", :type => :request do
         fill_in "Street", with: new_street
         fill_in "City", with: new_city
         fill_in "State", with: new_state
-        fill_in "Zip", with: new_zip
+        fill_in "Zip", with: new_zip        
         fill_in "Password", with: user.password
         fill_in "Confirm Password", with: user.password
       end
@@ -195,9 +198,14 @@ describe "UserPages", :type => :request do
         specify { expect(user.reload.discounts).to_not be_empty }
       end
       
-      
-      
-      
+      describe "and end membership" do
+        before do
+          select_date Date.today() >> 1, from: "user_membership_end_date"
+          click_button "Save changes"
+        end
+
+        specify {expect(user.reload.membership_end_date).to eq Date.today() >> 1}
+      end            
     end
   end
 end

@@ -43,6 +43,7 @@ describe User, :type => :model do
 
   it { is_expected.to respond_to(:membership_type)}
   it { is_expected.to respond_to(:membership_date)}
+  it { is_expected.to respond_to(:membership_end_date)}
   it { is_expected.to respond_to(:discounts)}
 
   it { is_expected.to respond_to(:gnucash_id)}
@@ -167,14 +168,66 @@ describe User, :type => :model do
     end
   end
 
+  describe "knows if member" do
+    before { @user.membership_date = Date.parse("2012-11-15") }
+    it {is_expected.to be_member_on(Date.parse("2012-11-15")) }
+    it {is_expected.to be_member_on(Date.parse("2015-11-15")) }
+    it {is_expected.to_not be_member_on(Date.parse("2012-11-14")) }
+  end
+  describe "knows if expired member" do
+    before do
+      @user.membership_date = Date.parse("2012-11-15")
+      @user.membership_end_date = Date.parse("2015-10-10")
+    end    
+    
+    it {is_expected.to_not be_member_on(Date.parse("2012-11-14")) }
+    it {is_expected.to be_member_on(Date.parse("2012-11-15")) }
+    it {is_expected.to be_member_on(Date.parse("2015-10-10")) }
+    it {is_expected.to_not be_member_on(Date.parse("2015-10-11")) }
+  end
+
   describe "can compute cost" do
     describe '#cost' do
       subject { super().cost }
       it { is_expected.to eq(20) }
     end
 
+    describe "without a discount" do
+      before do
+        @user.discounts = []        
+      end
+
+      subject { super().total_discount }
+      it { is_expected.to eq(0)}
+    end    
     describe "with a discount" do
-      before
+      before do
+        @user.discounts = [Discount.new(percent: 25)]        
+      end
+
+      subject { super().total_discount }
+      it { is_expected.to eq(25)}
+    end    
+    describe "with multiple discounts" do
+      before do
+        @user.discounts = [Discount.new(percent: 25),
+          Discount.new(percent:50)]        
+      end
+
+      subject { super().total_discount }
+      it { is_expected.to eq(62.5)}
     end
+
+    describe "has invoice" do
+      before do
+        @user.gnucash_id = "EXP"
+        @user.membership_date = Date.parse("2012.11.15")
+      end
+
+      
+      subject {super().invoice_for(2013,5)}
+
+      it { is_expected.to eq("EXP-1305,,EXP,,,2013-05-15,Basic Membership for May, 2013,,Income:Membership Dues,1,20,%,,0,,,,2013-05-15,2013-05-22,Accounts:Receivable,,,")}
+    end      
   end
 end

@@ -17,6 +17,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  
+  
   def new
     @user = User.new
   end
@@ -50,7 +52,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :email, :password,:password_confirmation,
       :street, :city, :state, :zip, :membership_type_id,
-      :membership_date, :discount_ids => [])
+      :membership_date, :membership_end_date, :gnucash_id, :discount_ids => [])
                                  
   end
 

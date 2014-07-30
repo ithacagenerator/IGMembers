@@ -32,6 +32,19 @@ class User < ActiveRecord::Base
     self.membership_type.monthlycost
   end
 
+  def total_discount
+    total_fraction = self.discounts.map {|d| d.fraction}.reduce(1,:*)
+    (1 - total_fraction ) * 100
+  end
+  
+
+  def member_on?(date)
+    return false if self.membership_date.nil? || date < self.membership_date
+    return true if self.membership_end_date.nil?
+    return false if self.membership_end_date < date
+    return true
+  end
+  
   private
 
   def create_remember_token
