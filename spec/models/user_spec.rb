@@ -218,16 +218,16 @@ describe User, :type => :model do
       it { is_expected.to eq(62.5)}
     end
 
-    describe "has invoice" do
-      before do
-        @user.gnucash_id = "EXP"
-        @user.membership_date = Date.parse("2012.11.15")
-      end
+#    xdescribe "has invoice" do
+#      let(:invoice) { @user.invoice_for(2013,5).split(',')}
+#
+#      before do
+#        @user.gnucash_id = "EXP"
+#        @user.membership_date = Date.parse("2012.11.15")
+#      end
 
+#      expect(invoice[0]).to eq("EXP-1305") # Invoice id
       
-      subject {super().invoice_for(2013,5)}
-
-      it { is_expected.to eq("EXP-1305,,EXP,,,2013-05-15,Basic Membership for May, 2013,,Income:Membership Dues,1,20,%,,0,,,,2013-05-15,2013-05-22,Accounts:Receivable,,,")}
-    end      
+#    end      
   end
 end

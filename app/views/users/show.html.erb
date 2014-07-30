@@ -8,10 +8,17 @@
       <strong><%= @user.name %></strong><br />
       <%= @user.street %><br />
       <%= "#{@user.city}, #{@user.state} #{@user.zip}" %><br />
-      <abbr title="Email">E:</abbr> <%= @user.email %> <br />
+      <abbr title="Email">E:</abbr> <%= @user.email %> <br />      
       <%= @user.membership_type.name %>
-      Member since 
-      <%= @user.membership_date.to_s %>
+      Member
+      <% if @user.membership_end_date.nil? %>
+	since 
+	<%= @user.membership_date.to_s %>
+      <% else %>
+	from <%= @user.membership_date.to_s %>
+	until <%= @user.membership_end_date.to_s %>
+      <% end %> <br />
+      <%= @user.invoice_for(2014,7) %>
     </address>
   </div>
 </div>
