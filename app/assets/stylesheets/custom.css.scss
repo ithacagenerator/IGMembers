@@ -31,7 +31,7 @@ header.navbar-default {
 	color:#f3f3f4;
 }
 
-h1,h2,h3 {
+.jumbotron h1,h1,h2,h3 {
 	font-family:$font-family-serif;
 	color: #726659
 }
@@ -45,8 +45,12 @@ body {
   	line-height: 22px;
 }
 
-h2 {
+.jumbotron h1 {
 	font-size:2.5em;
+}
+
+h2 {
+	font-size:2.25em;
 }
 
 a {
@@ -77,7 +81,13 @@ footer.navbar-default {
 .btn-primary {
 	background-color: #bf1e2e;
 	border-color: #a11b28;
+
+	
 }
+
+a.btn-primary, a.btn-primary:hover, a.btn-primary:visited {
+		color:#fff;
+	}
 
 .btn-primary:hover {
 	background-color:#a11b28;
