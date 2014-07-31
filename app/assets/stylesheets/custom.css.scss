@@ -3,8 +3,8 @@
 $font-family-serif:  'Roboto Slab';        @import
 url(http://fonts.googleapis.com/css?family=Roboto+Slab);
 
-$font-family-sans-serif: 'Open Sans'; @import
-url(http://fonts.googleapis.com/css?family=Open+Sans);
+$font-family-sans-serif: 'Roboto'; @import
+url(http://fonts.googleapis.com/css?family=Roboto:400,300);
 
 header.navbar-default {
 	background-color:#444545;
@@ -43,6 +43,7 @@ body {
 	background-color:#444545;
 	font-size: 16px;
   	line-height: 22px;
+  	font-weight:300;
 }
 
 .jumbotron h1 {
