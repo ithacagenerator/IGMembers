@@ -6,10 +6,15 @@ class User < ActiveRecord::Base
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
+
+  # old, encapsulated method.
   belongs_to :membership_type
   has_and_belongs_to_many :discounts
   validates :membership_type, presence: true
   validates :membership_date, presence: true
+
+  # new, separate membership method.
+  has_many :memberships
   
   has_secure_password
   validates :password, length: { minimum: 6 }
@@ -39,10 +44,11 @@ class User < ActiveRecord::Base
   
 
   def member_on?(date)
-    return false if self.membership_date.nil? || date < self.membership_date
-    return true if self.membership_end_date.nil?
-    return false if self.membership_end_date < date
-    return true
+    memberships.any? { |m| m.member_on?(date) }
+#    return false if self.membership_date.nil? || date < self.membership_date
+#    return true if self.membership_end_date.nil?
+#    return false if self.membership_end_date < date
+#    return true
   end
 
   def invoice_for(year,month)

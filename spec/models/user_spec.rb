@@ -41,12 +41,14 @@ describe User, :type => :model do
   it { is_expected.to respond_to(:state) }
   it { is_expected.to respond_to(:zip) }
 
-  it { is_expected.to respond_to(:membership_type)}
-  it { is_expected.to respond_to(:membership_date)}
-  it { is_expected.to respond_to(:membership_end_date)}
-  it { is_expected.to respond_to(:discounts)}
+  it { is_expected.to respond_to(:membership_type) }
+  it { is_expected.to respond_to(:membership_date) }
+  it { is_expected.to respond_to(:membership_end_date) }
+  it { is_expected.to respond_to(:discounts) }
 
-  it { is_expected.to respond_to(:gnucash_id)}
+  it { is_expected.to respond_to(:memberships) }
+
+  it { is_expected.to respond_to(:gnucash_id) }
 
   it { is_expected.to be_valid }
   it { is_expected.not_to be_admin }
@@ -125,7 +127,7 @@ describe User, :type => :model do
     it {is_expected.not_to be_valid}
   end
 
-  describe "when passwork is not present" do
+  describe "when password is not present" do
     before do
       @user = User.new(name: "Example User", email: "user@example.com",
                        password: " ", password_confirmation: " ")
@@ -138,7 +140,7 @@ describe User, :type => :model do
     it { is_expected.not_to be_valid }
   end
 
-  describe "return valie of authenticate method" do
+  describe "return value of authenticate method" do
     before { @user.save }
     let(:found_user) { User.find_by(email: @user.email) }
 
@@ -169,15 +171,23 @@ describe User, :type => :model do
   end
 
   describe "knows if member" do
-    before { @user.membership_date = Date.parse("2012-11-15") }
+    
+    before do
+      membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
+      membership = Membership.create(membership_type: membertype, start: Date.parse("2012-11-15"))
+      @user.memberships << membership
+    end
     it {is_expected.to be_member_on(Date.parse("2012-11-15")) }
     it {is_expected.to be_member_on(Date.parse("2015-11-15")) }
     it {is_expected.to_not be_member_on(Date.parse("2012-11-14")) }
   end
   describe "knows if expired member" do
     before do
-      @user.membership_date = Date.parse("2012-11-15")
-      @user.membership_end_date = Date.parse("2015-10-10")
+      membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
+      membership = Membership.create(membership_type: membertype,
+        start: Date.parse("2012-11-15"),
+        end: Date.parse("2015-10-10"))
+      @user.memberships << membership
     end    
     
     it {is_expected.to_not be_member_on(Date.parse("2012-11-14")) }
@@ -185,7 +195,7 @@ describe User, :type => :model do
     it {is_expected.to be_member_on(Date.parse("2015-10-10")) }
     it {is_expected.to_not be_member_on(Date.parse("2015-10-11")) }
   end
-
+  
   describe "can compute cost" do
     describe '#cost' do
       subject { super().cost }
