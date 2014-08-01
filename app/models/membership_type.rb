@@ -1,5 +1,5 @@
 class MembershipType < ActiveRecord::Base
-  has_many :users
+  has_many :memberships
   
   validates :name, presence: true
   validates :monthlycost, presence: true

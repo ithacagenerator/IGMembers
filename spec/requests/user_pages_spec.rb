@@ -92,8 +92,6 @@ describe "UserPages", :type => :request do
         fill_in "City", with: "Testville"
         fill_in "State", with: "NY"
         fill_in "Zip", with: "00000"
-        select "Test", from: "Membership type"
-        select_date Date.today(), from: "user_membership_date"
 
         fill_in "GnuCash ID", with: "EXM"
 
@@ -198,14 +196,6 @@ describe "UserPages", :type => :request do
         specify { expect(user.reload.discounts).to_not be_empty }
       end
       
-      describe "and end membership" do
-        before do
-          select_date Date.today() >> 1, from: "user_membership_end_date"
-          click_button "Save changes"
-        end
-
-        specify {expect(user.reload.membership_end_date).to eq Date.today() >> 1}
-      end            
     end
   end
 end

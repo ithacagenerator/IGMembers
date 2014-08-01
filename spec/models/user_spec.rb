@@ -18,11 +18,13 @@ describe User, :type => :model do
   before do
  #   pp(MembershipType.all)
     membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
+    membership = Membership.create(user: @user,
+      membership_type: membertype, start: Date.today())
     @user = User.new(name: "Example User", email: "user@example.com",
       street: "123 Example Way", city: "Exampleville",
       state: "EX", zip: "00000",
-      membership_type: membertype, membership_date: Date.today(),
-                     password: "foobar", password_confirmation: "foobar" )
+      memberships: [membership], 
+      password: "foobar", password_confirmation: "foobar" )
   end
 
   subject { @user }
@@ -181,19 +183,36 @@ describe User, :type => :model do
     it {is_expected.to be_member_on(Date.parse("2015-11-15")) }
     it {is_expected.to_not be_member_on(Date.parse("2012-11-14")) }
   end
+
   describe "knows if expired member" do
     before do
       membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
       membership = Membership.create(membership_type: membertype,
         start: Date.parse("2012-11-15"),
         end: Date.parse("2015-10-10"))
-      @user.memberships << membership
+      @user.memberships = [ membership ]
     end    
     
     it {is_expected.to_not be_member_on(Date.parse("2012-11-14")) }
     it {is_expected.to be_member_on(Date.parse("2012-11-15")) }
     it {is_expected.to be_member_on(Date.parse("2015-10-10")) }
     it {is_expected.to_not be_member_on(Date.parse("2015-10-11")) }
+
+    describe "but has renewed" do
+      before do
+        membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
+        membership = Membership.create(membership_type: membertype,
+          start: Date.parse("2016-11-15"))
+        @user.memberships << membership
+      end    
+
+    it {is_expected.to be_member_on(Date.parse("2015-10-10")) }
+    it {is_expected.to_not be_member_on(Date.parse("2015-10-11")) }
+    it {is_expected.to_not be_member_on(Date.parse("2016-11-14")) }
+    it {is_expected.to be_member_on(Date.parse("2016-11-15")) }
+        
+      
+    end  
   end
   
   describe "can compute cost" do
