@@ -3,8 +3,8 @@
 $font-family-serif:  'Roboto Slab';        @import
 url(http://fonts.googleapis.com/css?family=Roboto+Slab);
 
-$font-family-sans-serif: 'Open Sans'; @import
-url(http://fonts.googleapis.com/css?family=Open+Sans);
+$font-family-sans-serif: 'Roboto'; @import
+url(http://fonts.googleapis.com/css?family=Roboto:400,300);
 
 header.navbar-default {
 	background-color:#444545;
@@ -31,7 +31,7 @@ header.navbar-default {
 	color:#f3f3f4;
 }
 
-h1,h2,h3 {
+.jumbotron h1,h1,h2,h3 {
 	font-family:$font-family-serif;
 	color: #726659
 }
@@ -41,12 +41,17 @@ h1,h2,h3 {
 body {
 	font-family: $font-family-sans-serif;
 	background-color:#444545;
-	font-size: 14px;
+	font-size: 16px;
   	line-height: 22px;
+  	font-weight:300;
+}
+
+.jumbotron h1 {
+	font-size:2.5em;
 }
 
 h2 {
-	font-size:2.5em;
+	font-size:2.25em;
 }
 
 a {
@@ -77,7 +82,13 @@ footer.navbar-default {
 .btn-primary {
 	background-color: #bf1e2e;
 	border-color: #a11b28;
+
+	
 }
+
+a.btn-primary, a.btn-primary:hover, a.btn-primary:visited {
+		color:#fff;
+	}
 
 .btn-primary:hover {
 	background-color:#a11b28;

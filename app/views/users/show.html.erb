@@ -1,11 +1,11 @@
 <% provide(:title, @user.name) %>
-<div class="row clearfix">
+<div class="row">
+<h1><%= @user.name %></h1>
   <div class="col-md-1 column">
     <%= gravatar_for @user %>
   </div>
   <div class="col-md-11 column">
     <address>
-      <strong><%= @user.name %></strong><br />
       <%= @user.street %><br />
       <%= "#{@user.city}, #{@user.state} #{@user.zip}" %><br />
       <abbr title="Email">E:</abbr> <%= @user.email %> <br />      
