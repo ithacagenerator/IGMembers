@@ -2,12 +2,14 @@ require 'rails_helper'
 
 RSpec.describe Membership, :type => :model do
 
-  let(:membertype) { MembershipType.new(name: ExampleType, monthlycost: 25)}
-  let(:user) { User.new() }
+  let(:user) { FactoryGirl.create(:user)}
+  let(:membertype) { FactoryGirl.create(:membership_type)}
   
-  before { @membership = Membership.new(membership_type: @membertype,
-      user: @user, start: Date.parse("2012-11-15")) }
-
+  before do
+    @membership = user.memberships.build(membership_type: @membertype,
+                                        start: Date.parse("2012-11-15"))
+  end
+  
   subject { @membership }
 
   it { is_expected.to be_member_on(Date.parse("2012-11-15")) }

@@ -62,7 +62,6 @@ describe "Authentication", :type => :request do
           end
         end
       end
-      
 
       describe "in the Users controller" do
 

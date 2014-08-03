@@ -55,11 +55,30 @@ describe "UserPages", :type => :request do
   
 
   describe "profile page" do
-    let(:user) { FactoryGirl.create(:user)}
+    let(:user) { FactoryGirl.create(:user) }
+    let!(:mtype1) { FactoryGirl.create(:membership_type, name: "Foo") }
+    let!(:mtype2) { FactoryGirl.create(:membership_type, name: "Bar") }
+    let!(:m1) { FactoryGirl.create(:membership,
+                                   user: user,
+                                   membership_type: mtype1,
+                                   start: Date.parse("2011-11-15"),
+                                   end: Date.parse("2012-11-14")) }
+    let!(:m2) { FactoryGirl.create(:membership,
+                                   user: user,
+                                   membership_type: mtype2,
+                                   start: Date.parse("2013-01-01")) }
+                                 
+    
     before {visit user_path(user) }
 
     it {is_expected.to have_content(user.name)}
     it {is_expected.to have_title(user.name)}
+
+    describe "memberships" do
+      it { is_expected.to  have_content("#{mtype1.name} member from #{m1.start.to_s} to #{m1.start.to_s}") }
+      it { is_expected.to  have_content("#{mtype2.name} member since #{m2.start.to_s}") }
+    end
+    
   end
 
   describe "signup page" do
