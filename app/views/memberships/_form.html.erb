@@ -1,0 +1,7 @@
+<%= render 'shared/error_messages' %>
+
+<%= f.input :user_id, as: :hidden %>
+<%= f.association :membership_type %>
+<%= f.input :start, as: :date %>
+<%= f.input :end, as: :date, include_blank: true %>
+

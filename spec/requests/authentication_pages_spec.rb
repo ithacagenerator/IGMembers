@@ -80,6 +80,15 @@ describe "Authentication", :type => :request do
           it { is_expected.to have_title('Sign in') }
         end        
       end
+
+      describe "in the Memberships controller" do
+
+        describe "submitting to the create action" do
+          before { post memberships_path }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+      end
+      
     end
 
     describe "as wrong user" do

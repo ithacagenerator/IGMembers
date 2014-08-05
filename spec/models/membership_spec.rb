@@ -12,6 +12,11 @@ RSpec.describe Membership, :type => :model do
   
   subject { @membership }
 
+  it { should respond_to(:membership_type)}
+  it { should respond_to(:start)}
+  it { should respond_to(:end)}
+  
+  
   it { is_expected.to be_member_on(Date.parse("2012-11-15")) }
   it { is_expected.not_to be_member_on(Date.parse("2012-11-14")) }
 

@@ -1,0 +1,11 @@
+<li>
+  <%= membership.membership_type.name %>
+Member
+<% if membership.end.nil? %>
+  since 
+  <%= membership.start.to_s %>
+<% else %>
+  from <%= membership.start.to_s %>
+  until <%= membership.end.to_s %>
+<% end %> <br />
+</li>

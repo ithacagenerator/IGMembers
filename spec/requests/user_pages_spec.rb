@@ -75,8 +75,8 @@ describe "UserPages", :type => :request do
     it {is_expected.to have_title(user.name)}
 
     describe "memberships" do
-      it { is_expected.to  have_content("#{mtype1.name} member from #{m1.start.to_s} to #{m1.start.to_s}") }
-      it { is_expected.to  have_content("#{mtype2.name} member since #{m2.start.to_s}") }
+      it { is_expected.to  have_content("#{mtype1.name} Member from #{m1.start.to_s} until #{m1.end.to_s}") }
+      it { is_expected.to  have_content("#{mtype2.name} Member since #{m2.start.to_s}") }
     end
     
   end

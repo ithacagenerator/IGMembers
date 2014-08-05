@@ -9,18 +9,16 @@
       <%= @user.street %><br />
       <%= "#{@user.city}, #{@user.state} #{@user.zip}" %><br />
       <abbr title="Email">E:</abbr> <%= @user.email %> <br />
-      <% @user.memberships.each do |mem| %>
-        <%= mem.membership_type.name %>
-        Member
-        <% if mem.end.nil? %>
-          since 
-          <%= mem.start.to_s %>
-        <% else %>
-          from <%= mem.start.to_s %>
-          until <%= mem.end.to_s %>
-        <% end %> <br />
-      <% end %>
+    </address> 
+    <% if @user.memberships.any?  %>
+      <ul class="memberships">
+	<%= render @memberships %>
+      </ul>      
+    <% end %>
+    <% if current_user.admin? %>
+      <%= link_to "Add Membership", new_membership_path(user: @user) %>
+      <br/>
       <%= @user.invoice_for(2014,7) %>
-    </address>
+    <% end %>
   </div>
 </div>
