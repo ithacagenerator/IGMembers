@@ -68,7 +68,8 @@ describe "UserPages", :type => :request do
                                    membership_type: mtype2,
                                    start: Date.parse("2013-01-01")) }
                                  
-    
+
+    before {sign_in user}
     before {visit user_path(user) }
 
     it {is_expected.to have_content(user.name)}

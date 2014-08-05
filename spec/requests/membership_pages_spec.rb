@@ -10,7 +10,7 @@ RSpec.describe "MembershipPages", :type => :request do
 
   describe "membership creation" do
     before { visit user_path(user) }
-    before { click_button "Add Membership" }
+    before { click_link "Add Membership" }
 
     describe "with invalid information" do
 
@@ -20,7 +20,7 @@ RSpec.describe "MembershipPages", :type => :request do
 
       describe "error messages" do
         before { click_button "Save Membership"}
-        it {should have_content('error')}
+        it {should have_content("can't be blank")}
       end
     end
   end  
