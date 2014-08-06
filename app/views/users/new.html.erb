@@ -5,6 +5,7 @@
   <div class="span6 offset3">
     <%= simple_form_for @user do |f| %>
       <%= render 'fields', f: f %>
+      <%= render 'special_fields', f: f %>
       <%= f.submit "Create my account", class: "btn btn-large btn-primary" %>
     <% end %>
   </div>
