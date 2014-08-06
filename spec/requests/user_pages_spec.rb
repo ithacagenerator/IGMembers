@@ -93,7 +93,7 @@ describe "UserPages", :type => :request do
         fill_in "State", with: "NY"
         fill_in "Zip", with: "00000"
         select "Test", from: "Membership type"
-        select_date Date.today(), from: "user_membership_date"
+        select_date Date.parse("2011-11-15"), from: "user_membership_date"
         
         fill_in "Confirm Password", with: "foobar", match: :prefer_exact
       end
