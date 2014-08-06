@@ -1,12 +1,101 @@
 @import "bootstrap";
 
-body {
-    min-height: 2000px;
-    padding-top: 70px;
-    padding-bottom: 70px;
+$font-family-serif:  'Roboto Slab';        @import
+url(http://fonts.googleapis.com/css?family=Roboto+Slab);
+
+$font-family-sans-serif: 'Roboto'; @import
+url(http://fonts.googleapis.com/css?family=Roboto:400,300);
+
+header.navbar-default {
+	background-color:#444545;
+	height:75px;
+
+	img {
+		position:relative;
+		top:-10px;
+	}
+
+	.navbar-right {
+		position:relative;
+		top:50px;
+
+	}
+
 }
 
-.invert {
-    -webkit-filter: invert(100%);
-    filter: invert(100%);
+.navbar-default {
+	border:0
+}
+
+.navbar-default .navbar-nav > li > a {
+	color:#f3f3f4;
+}
+
+.jumbotron h1,h1,h2,h3 {
+	font-family:$font-family-serif;
+	color: #726659
+}
+.maincontent {
+	background-color:#f3f3f4;
+}
+body {
+	font-family: $font-family-sans-serif;
+	background-color:#444545;
+	font-size: 16px;
+  	line-height: 22px;
+  	font-weight:300;
+}
+
+.jumbotron h1 {
+	font-size:2.5em;
+}
+
+h2 {
+	font-size:2.25em;
+}
+
+a {
+  color: #fff;
+  :visited {
+    color: #eee;
+  }
+  :hover {
+    color: #eee;
+    background-color: #000;
+  }
+}
+
+.maincontent {
+	a {
+		color:#428bca
+	}
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	color: #eee;
+}
+
+footer.navbar-default {
+	background-color:#444545
+}
+
+.btn-primary {
+	background-color: #bf1e2e;
+	border-color: #a11b28;
+
+	
+}
+
+a.btn-primary, a.btn-primary:hover, a.btn-primary:visited {
+		color:#fff;
+	}
+
+.btn-primary:hover {
+	background-color:#a11b28;
+	border-color:#a11b28
+}
+
+.jumbotron {
+	margin:2em;
+
 }

@@ -15,8 +15,11 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    @memberships = @user.memberships
   end
 
+  
+  
   def new
     @user = User.new
   end
@@ -50,25 +53,15 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :email, :password,:password_confirmation,
       :street, :city, :state, :zip, :membership_type_id,
-      :membership_date, :discount_ids => [])
+      :membership_date, :membership_end_date, :gnucash_id, :discount_ids => [])
                                  
   end
 
   # Before filters
-
-  def signed_in_user
-    unless signed_in?
-      store_location
-      redirect_to signin_url, notice: "Please sign in."
-    end   
-  end
 
   def correct_user
     @user = User.find(params[:id])
     redirect_to(root_url) unless current_user?(@user)
   end
 
-  def admin_user
-    redirect_to(root_url) unless current_user.admin?
-  end  
 end

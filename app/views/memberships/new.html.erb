@@ -1,0 +1,12 @@
+<% provide(:title, 'Add Membership') %>
+
+<h1>Add Membership for <%= @user.name %></h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= simple_form_for @membership do |f| %>
+      <%= render 'form', f: f %>
+      <%= f.submit "Save Membership", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>

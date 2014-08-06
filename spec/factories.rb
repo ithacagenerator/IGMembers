@@ -4,6 +4,12 @@ FactoryGirl.define do
     sequence(:monthlycost) { |n| n }
   end
 
+  factory :membership do
+    membership_type
+    start Date.today()
+  end
+  
+
   factory :user do
     sequence(:name) { |n| "Person #{n}"}
     sequence(:email) { |n| "person_#{n}@example.com"}
@@ -12,9 +18,8 @@ FactoryGirl.define do
     state "NY"
     zip "11111"
 
-    membership_type
-    membership_date Date.today()
-
+    memberships {[FactoryGirl.create(:membership)]}
+    
     password "foobar"
     password_confirmation "foobar"
 

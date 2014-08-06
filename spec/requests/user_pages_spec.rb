@@ -55,11 +55,31 @@ describe "UserPages", :type => :request do
   
 
   describe "profile page" do
-    let(:user) { FactoryGirl.create(:user)}
+    let(:user) { FactoryGirl.create(:user) }
+    let!(:mtype1) { FactoryGirl.create(:membership_type, name: "Foo") }
+    let!(:mtype2) { FactoryGirl.create(:membership_type, name: "Bar") }
+    let!(:m1) { FactoryGirl.create(:membership,
+                                   user: user,
+                                   membership_type: mtype1,
+                                   start: Date.parse("2011-11-15"),
+                                   end: Date.parse("2012-11-14")) }
+    let!(:m2) { FactoryGirl.create(:membership,
+                                   user: user,
+                                   membership_type: mtype2,
+                                   start: Date.parse("2013-01-01")) }
+                                 
+
+    before {sign_in user}
     before {visit user_path(user) }
 
     it {is_expected.to have_content(user.name)}
     it {is_expected.to have_title(user.name)}
+
+    describe "memberships" do
+      it { is_expected.to  have_content("#{mtype1.name} Member from #{m1.start.to_s} until #{m1.end.to_s}") }
+      it { is_expected.to  have_content("#{mtype2.name} Member since #{m2.start.to_s}") }
+    end
+    
   end
 
   describe "signup page" do
@@ -93,8 +113,8 @@ describe "UserPages", :type => :request do
         fill_in "State", with: "NY"
         fill_in "Zip", with: "00000"
         select "Test", from: "Membership type"
-        select_date Date.parse("2011-11-15"), from: "user_membership_date"
-        
+        select_date Date.parse("2011-11-15"), from: "user_membership_date"        
+
         fill_in "Confirm Password", with: "foobar", match: :prefer_exact
       end
 
@@ -111,6 +131,7 @@ describe "UserPages", :type => :request do
         it { is_expected.to have_selector('div.alert.alert-success', text: 'Welcome') }
 
         specify { expect(user.reload.discounts).to be_empty }
+        specify { expect(user.reload.gnucash_id).to eq("EXM") }
 
       end
       
@@ -162,7 +183,7 @@ describe "UserPages", :type => :request do
         fill_in "Street", with: new_street
         fill_in "City", with: new_city
         fill_in "State", with: new_state
-        fill_in "Zip", with: new_zip
+        fill_in "Zip", with: new_zip        
         fill_in "Password", with: user.password
         fill_in "Confirm Password", with: user.password
       end
@@ -195,9 +216,6 @@ describe "UserPages", :type => :request do
         
         specify { expect(user.reload.discounts).to_not be_empty }
       end
-      
-      
-      
       
     end
   end

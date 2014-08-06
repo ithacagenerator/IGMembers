@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730164502) do
+ActiveRecord::Schema.define(version: 20140801025233) do
 
   create_table "discounts", force: true do |t|
     t.string   "name"
@@ -32,6 +32,18 @@ ActiveRecord::Schema.define(version: 20140730164502) do
     t.datetime "updated_at"
   end
 
+  create_table "memberships", force: true do |t|
+    t.integer  "membership_type_id"
+    t.integer  "user_id"
+    t.date     "start"
+    t.date     "end"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "memberships", ["membership_type_id"], name: "index_memberships_on_membership_type_id"
+  add_index "memberships", ["user_id"], name: "index_memberships_on_user_id"
+
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "email"
@@ -39,7 +51,7 @@ ActiveRecord::Schema.define(version: 20140730164502) do
     t.datetime "updated_at"
     t.string   "password_digest"
     t.string   "remember_token"
-    t.boolean  "admin",              default: false
+    t.boolean  "admin",               default: false
     t.string   "street"
     t.string   "city"
     t.string   "state"
@@ -47,6 +59,7 @@ ActiveRecord::Schema.define(version: 20140730164502) do
     t.integer  "membership_type_id"
     t.date     "membership_date"
     t.string   "gnucash_id"
+    t.date     "membership_end_date"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

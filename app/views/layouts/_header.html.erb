@@ -1,11 +1,13 @@
-<header class="navbar navbar-fixed-top navbar-inverse" role="navigation"> 
+<header class="navbar navbar-default" role="navigation"> 
   <div class="container">
     <div class="navbar-header">
-      <%= link_to image_tag('ithacageneratorlogo.png',
+      <%= link_to image_tag('gray_brown.png',
 			    alt:"Ithaca Generator",
-			    size: '116x33'),
+			    height: '90',
+          ),
 		  root_path, id: "logo", class: "navbar-brand navbar-left" %>
-      <div class="navbar-collapse collapse navbar-right">
+      </div>
+      <div class="nav navbar-nav navbar-right">
         <ul class="nav navbar-nav">
           <li><%= link_to "Home",     root_path %></li>
           <li><%= link_to "Help",     help_path %></li>
