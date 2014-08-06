@@ -112,9 +112,9 @@ describe "UserPages", :type => :request do
         fill_in "City", with: "Testville"
         fill_in "State", with: "NY"
         fill_in "Zip", with: "00000"
-        select "Test", from: "Membership type"
-        select_date Date.parse("2011-11-15"), from: "user_membership_date"        
-
+        
+        fill_in "GnuCash ID", with: "EXM"
+               
         fill_in "Confirm Password", with: "foobar", match: :prefer_exact
       end
 
@@ -184,8 +184,8 @@ describe "UserPages", :type => :request do
         fill_in "City", with: new_city
         fill_in "State", with: new_state
         fill_in "Zip", with: new_zip        
-        fill_in "Password", with: user.password
-        fill_in "Confirm Password", with: user.password
+        #fill_in "Password", with: user.password
+        #fill_in "Confirm Password", with: user.password
       end
 
       describe "and no discounts" do

@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   has_many :memberships
   
   has_secure_password
-  validates :password, length: { minimum: 6 }
+  validates :password, length: { minimum: 6 }, :if => :validate_password?
 
   validates :street, presence: true
   validates :city, presence: true
@@ -106,6 +106,10 @@ class User < ActiveRecord::Base
 
   def create_remember_token
     self.remember_token = User.digest(User.new_remember_token)
+  end
+
+  def validate_password?
+    password.present? || password_confirmation.present?
   end
 
 end
