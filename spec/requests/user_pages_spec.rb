@@ -140,6 +140,7 @@ describe "UserPages", :type => :request do
       it { is_expected.to have_content("Update your profile")}
       it { is_expected.to have_title("Edit user") }
       it { is_expected.to have_link('change', href: 'http://gravatar.com/emails')}
+      it { is_expected.not_to have_field("user[password]") }
     end
 
     describe "with invalid information" do
