@@ -46,7 +46,7 @@ describe User, :type => :model do
   it { is_expected.to respond_to(:membership_type) }
   it { is_expected.to respond_to(:membership_date) }
   it { is_expected.to respond_to(:membership_end_date) }
-  it { is_expected.to respond_to(:discounts) }
+  it { is_expected.not_to respond_to(:discounts) }
 
   it { is_expected.to respond_to(:memberships) }
 
