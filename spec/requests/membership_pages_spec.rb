@@ -63,7 +63,8 @@ RSpec.describe "MembershipPages", :type => :request do
    
     describe "valid with one discount" do
 
-     before do
+      before do
+        user.memberships.clear()
        select "Foo", from: "Membership type"       
        select_date Date.parse("2012-11-15"), from: :membership_start
        check "Student"
@@ -72,7 +73,7 @@ RSpec.describe "MembershipPages", :type => :request do
      it "should create a membership" do
        expect { click_button "Save Membership"}.to change(Membership, :count)
        expect { it.to have_content("New membership create for Foo") }       
-       expect { Membership.last.discounts.count.to equal(1) } 
+       expect { user.reload.memberships.last.discounts.count.to equal(1) } 
      end
      
    end       
@@ -89,7 +90,7 @@ RSpec.describe "MembershipPages", :type => :request do
      it "should create a membership" do
        expect { click_button "Save Membership"}.to change(Membership, :count)
        expect { it.to have_content("New membership create for Foo") }              
-       expect { Membership.last.discounts.count.to equal(1) } 
+       expect { user.reload.memberships.last.discounts.count.to equal(1) } 
      end
     
    end       
