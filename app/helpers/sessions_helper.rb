@@ -31,14 +31,14 @@ module SessionsHelper
     user == current_user
   end
 
-  def admin_user?
-    !current_user.nil? && current_user.admin
-  end  
-
   def admin_user
     redirect_to(root_url) unless admin_user?
   end  
-    
+
+  def admin_user?
+    !current_user.nil? && current_user.admin?
+  end
+  
   def sign_out
     current_user.update_attribute(:remember_token,
                                   User.digest(User.new_remember_token))

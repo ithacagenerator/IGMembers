@@ -2,7 +2,7 @@ SampleApp::Application.routes.draw do
   resources :discounts
 
   resources :membership_types
-  resources :memberships, only: [:new, :create]
+  resources :memberships, only: [:new, :create, :edit, :update ]
   
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
