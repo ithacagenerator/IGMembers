@@ -16,10 +16,10 @@ describe User, :type => :model do
   
   
   before do
- #   pp(MembershipType.all)
-    membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
+  #   pp(MembershipType.all)
+    membertype = MembershipType.create(name: "Basic", monthlycost: 20 )
     membership = Membership.create(user: @user,
-      membership_type: membertype, start: Date.today())
+    membership_type: membertype, start: Date.today())
     @user = User.new(name: "Example User", email: "user@example.com",
       street: "123 Example Way", city: "Exampleville",
       state: "EX", zip: "00000",
@@ -200,7 +200,7 @@ describe User, :type => :model do
 
     describe "but has renewed" do
       before do
-        membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
+        membertype = MembershipType.create(name: "Basic", monthlycost: 20 )
         membership = Membership.create(membership_type: membertype,
           start: Date.parse("2016-11-15"))
         @user.memberships << membership
@@ -221,31 +221,33 @@ describe User, :type => :model do
       it { is_expected.to eq(20) }
     end
 
-    describe "without a discount" do
-      before do
-        @user.discounts = []        
-      end
+#    describe "without a discount" do
+#      before do
+#        @user.discounts = []        
+#      end
+#
+#      subject { super().total_discount }
+#      it { is_expected.to eq(0)}
+#    end    
 
-      subject { super().total_discount }
-      it { is_expected.to eq(0)}
-    end    
-    describe "with a discount" do
-      before do
-        @user.discounts = [Discount.new(percent: 25)]        
-      end
-
-      subject { super().total_discount }
-      it { is_expected.to eq(25)}
-    end    
-    describe "with multiple discounts" do
-      before do
-        @user.discounts = [Discount.new(percent: 25),
-          Discount.new(percent:50)]        
-      end
-
-      subject { super().total_discount }
-      it { is_expected.to eq(62.5)}
-    end
+#    describe "with a discount" do
+#      before do
+#        # @user.discounts = [Discount.new(percent: 25)]        
+#      end
+#
+#      subject { super().total_discount }
+#      it { is_expected.to eq(25)}
+#    end    
+    
+#    describe "with multiple discounts" do
+#      before do
+#        @user.discounts = [Discount.new(percent: 25),
+#          Discount.new(percent:50)]        
+#      end
+#
+#      subject { super().total_discount }
+#      it { is_expected.to eq(62.5)}
+#    end
 
 #    xdescribe "has invoice" do
 #      let(:invoice) { @user.invoice_for(2013,5).split(',')}

@@ -10,5 +10,6 @@ describe Discount, :type => :model do
   
   it { is_expected.to respond_to(:name)}
   it { is_expected.to respond_to(:percent)}
-  it { is_expected.to respond_to(:users)}
+  it { is_expected.not_to respond_to(:users)}
+  it { is_expected.to respond_to(:memberships)}
 end
