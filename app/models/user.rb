@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   # old, encapsulated method.
 #  belongs_to :membership_type
-  has_and_belongs_to_many :discounts
+#  has_and_belongs_to_many :discounts
 #  validates :membership_type, presence: true
 #  validates :membership_date, presence: true
 
