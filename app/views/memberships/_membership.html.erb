@@ -1,11 +1,15 @@
 <li>
   <%= membership.membership_type.name %>
-Member
-<% if membership.end.nil? %>
-  since 
-  <%= membership.start.to_s %>
-<% else %>
-  from <%= membership.start.to_s %>
-  until <%= membership.end.to_s %>
-<% end %> <br />
+  Member
+  <% if membership.end.nil? %>
+    since 
+    <%= membership.start.to_s %>
+  <% else %>
+    from <%= membership.start.to_s %>
+    until <%= membership.end.to_s %>
+  <% end %>
+  <% if !current_user.nil? && current_user.admin? %>
+    <%= link_to "Edit", edit_membership_path(membership) %>
+  <% end %>
+  <br />
 </li>

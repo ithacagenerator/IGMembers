@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_action :signed_in_user
+  before_action :admin_user
 
   def new
     @user = User.find_by_id(params[:user])
@@ -18,5 +18,10 @@ class MembershipsController < ApplicationController
     else
       render 'new'
     end
-  end  
+  end
+
+  def edit
+    @membership = Membership.find(params[:id])
+  end
+  
 end

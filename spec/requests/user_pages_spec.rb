@@ -3,6 +3,8 @@ require 'pp'
 
 describe "UserPages", :type => :request do
 
+  let(:admin) { FactoryGirl.create(:admin) }
+
   subject {page}
 
   describe "index" do
@@ -36,7 +38,6 @@ describe "UserPages", :type => :request do
       it { is_expected.not_to have_link('delete') }
 
       describe "as an admin user" do
-        let(:admin) { FactoryGirl.create(:admin) }
         before do
           sign_in admin
           visit users_path
@@ -78,6 +79,17 @@ describe "UserPages", :type => :request do
     describe "memberships" do
       it { is_expected.to  have_content("#{mtype1.name} Member from #{m1.start.to_s} until #{m1.end.to_s}") }
       it { is_expected.to  have_content("#{mtype2.name} Member since #{m2.start.to_s}") }
+      it { is_expected.not_to  have_link("Edit", href: edit_membership_path(m1)) }
+      it { is_expected.not_to  have_link("Edit", href: edit_membership_path(m2)) }
+      it { is_expected.not_to  have_link("Add Membership", href: new_membership_path(user: user)) }
+
+      describe "have edit links for admin" do
+        before {sign_in admin}
+        before {visit user_path(user)}
+        it { is_expected.to  have_link("Edit", href: edit_membership_path(m1)) }
+        it { is_expected.to  have_link("Edit", href: edit_membership_path(m2)) }
+        it { is_expected.to  have_link("Add Membership", href: new_membership_path(user: user)) }
+      end
     end
     
   end
