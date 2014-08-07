@@ -23,5 +23,15 @@ class MembershipsController < ApplicationController
   def edit
     @membership = Membership.find(params[:id])
   end
-  
+
+  def update
+    p = params.require(:membership).permit(:membership_type_id, :start, :end)
+    @membership = Membership.find(params[:id])
+    if @membership.update_attributes(p)
+      flash[:success] = "Membership updated"
+      redirect_to @membership.user
+    else
+      render 'edit'
+    end
+  end
 end

@@ -65,7 +65,7 @@ RSpec.describe "MembershipPages", :type => :request do
       select new_type, from: "Membership type"
       select_date new_start, from: :membership_start
       select_date new_end, from: :membership_end
-      click_button "Save changes"
+      click_button "Save Changes"
     end
 
     specify { expect(m1.reload.membership_type.name).to eq mtype2.name }

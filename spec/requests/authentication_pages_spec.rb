@@ -85,7 +85,7 @@ describe "Authentication", :type => :request do
 
         describe "submitting to the create action" do
           before { post memberships_path }
-          specify { expect(response).to redirect_to(signin_path) }
+          specify { expect(response).to redirect_to(root_url) }
         end
       end
       
