@@ -48,8 +48,9 @@ class User < ActiveRecord::Base
   end
 
   def total_discount
-    total_fraction = self.discounts.map {|d| d.fraction}.reduce(1,:*)
-    (1 - total_fraction ) * 100
+    #total_fraction = self.discounts.map {|d| d.fraction}.reduce(1,:*)
+    #(1 - total_fraction ) * 100
+    0 #TODO: refactor discounts out of user
   end
   
 

@@ -111,10 +111,8 @@ describe "UserPages", :type => :request do
         fill_in "Street", with: "1 Test Way"
         fill_in "City", with: "Testville"
         fill_in "State", with: "NY"
-        fill_in "Zip", with: "00000"
-        
-        fill_in "GnuCash ID", with: "EXM"
-               
+        fill_in "Zip", with: "00000"        
+        fill_in "GnuCash ID", with: "EXM"               
         fill_in "Confirm Password", with: "foobar", match: :prefer_exact
       end
 
@@ -129,21 +127,11 @@ describe "UserPages", :type => :request do
         it {is_expected.to have_link('Sign out') }
         it {is_expected.to have_title(user.name) }
         it { is_expected.to have_selector('div.alert.alert-success', text: 'Welcome') }
-
-        # specify { expect(user.reload.discounts).to be_empty }
+        
         specify { expect(user.reload.gnucash_id).to eq("EXM") }
 
       end
       
-#      describe "and one discounts" do
-#        before do
-#          # check "Student"
-#          click_button submit
-#        end
-#        
-#        let(:user) { User.find_by(email: 'user@example.com') }
-#        specify { expect(user.discounts.size).to eq(1) }
-#      end
     end
   end
 
