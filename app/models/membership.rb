@@ -20,12 +20,51 @@ class Membership < ActiveRecord::Base
     true
   end
 
+  def total_fraction
+    discounts.map {|d| d.fraction}.reduce(1,:*)
+  end
+  
   def total_discount
-    total_fraction = self.discounts.map {|d| d.fraction}.reduce(1,:*)
-    (1 - total_fraction ) * 100
+    (1 - total_fraction) * 100
   end
 
+  def cost
+    membership_type.monthlycost
+  end
+  
   def invoice_for(year, month)
-    ","
+    invoice_date = invoice_date_for(year, month)
+
+    # GnuCash invoice has 22 fields
+    
+    id = "#{user.gnucash_id}-#{invoice_date.strftime('%y%m')}" # invoice id #
+    date_opened = Date.today().to_s()
+    owner_id = user.gnucash_id
+    billingid = ""
+    discount_list = discounts.map{|d| "#{d.percent}% #{d.name}"}.join(' and ' )
+    notes = discounts.any? ? "#{discount_list} #{'discount'.pluralize(discounts.count)} applied" : ""
+    date = invoice_date.to_s
+    desc = "#{self.membership_type.name} membership for #{date}"
+    action = ""
+    account = "Income:Membership Dues"
+    quantity = "1"
+    price =  "%.2f" % (cost*total_fraction).round(2)  # self.cost.to_s()
+    disc_type = "%"
+    disc_how = ""
+    discount = "0" # self.total_discount
+    taxable = ""
+    taxincluded = ""
+    tax_table = ""
+    date_posted = invoice_date.to_s()
+    due_date = (invoice_date + 7).to_s()
+    account_posted = "Assets:Accounts Receivable"
+    memo_posted = ""
+    accu_splits = ""
+
+    [id,date_opened, owner_id, billingid, notes, date,
+      desc, action, account, quantity, price, disc_type,
+      disc_how, discount, taxable, taxincluded, tax_table, date_posted,
+      due_date, account_posted, memo_posted, accu_splits
+    ].join(',')
   end
 end

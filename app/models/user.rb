@@ -40,65 +40,33 @@ class User < ActiveRecord::Base
 
   
   def membership_type
-    self.current_membership.membership_type unless self.current_membership.nil?
+    current_membership.membership_type if current_member?
   end
   
   def cost
-    self.membership_type.monthlycost
+    current_membership.cost if current_member?
   end
 
   def total_discount
-    self.current_membership.total_discount
-    0 #TODO: refactor discounts out of user
+    current_membership.total_discount if current_member?
   end
-  
+
+  def current_member?
+    !current_membership.nil?
+  end
 
   def member_on?(date)
     memberships.any? { |m| m.member_on?(date) }
-#    return false if self.membership_date.nil? || date < self.membership_date
-#    return true if self.membership_end_date.nil?
-#    return false if self.membership_end_date < date
-#    return true
   end
 
   def invoice_for(year,month)
-    # GnuCash invoice has 18 fields
     active_memberships = self.memberships.select { |m| m.invoiceable_on?(year, month)}
 
     return "Multiple Memberships for #{self.gnucash_id}" if active_memberships.count > 1
     return if !active_memberships.any?
 
     membership = active_memberships.first()
-    invoice_date = membership.invoice_date_for(year, month)
-  
-    id = "#{self.gnucash_id}-#{invoice_date.strftime('%y%m')}" # invoice id #
-    date_opened = Date.today().to_s()
-    owner_id = self.gnucash_id
-    billingid = ""
-    notes = ""
-    date = invoice_date.to_s
-    desc = "#{self.membership_type.name} membership for #{date}"
-    action = ""
-    account = "Income:Membership Dues"
-    quantity = "1"
-    price = self.cost.to_s()
-    disc_type = "%"
-    disc_how = ""
-    discount = self.total_discount
-    taxable = ""
-    taxincluded = ""
-    tax_table = ""
-    date_posted = invoice_date.to_s()
-    due_date = (invoice_date + 7).to_s()
-    account_posted = ""
-    memo_posted = ""
-    accu_splits = ""
-
-    [id,date_opened, owner_id, billingid, notes, date,
-      desc, action, account, quantity, price, disc_type,
-      disc_how, discount, taxable, taxincluded, tax_table, date_posted,
-      due_date, account_posted, memo_posted, accu_splits
-    ].join(',')
+    membership.invoice_for(year,month)
   end
   
   
