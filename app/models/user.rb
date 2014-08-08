@@ -48,8 +48,7 @@ class User < ActiveRecord::Base
   end
 
   def total_discount
-    #total_fraction = self.discounts.map {|d| d.fraction}.reduce(1,:*)
-    #(1 - total_fraction ) * 100
+    self.current_membership.total_discount
     0 #TODO: refactor discounts out of user
   end
   
@@ -72,7 +71,7 @@ class User < ActiveRecord::Base
     membership = active_memberships.first()
     invoice_date = membership.invoice_date_for(year, month)
   
-    id = "#{self.gnucash_id}-#{invoice_date.strftime('%y%m')}" # invoice id
+    id = "#{self.gnucash_id}-#{invoice_date.strftime('%y%m')}" # invoice id #
     date_opened = Date.today().to_s()
     owner_id = self.gnucash_id
     billingid = ""

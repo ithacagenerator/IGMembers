@@ -19,5 +19,13 @@ class Membership < ActiveRecord::Base
     return false if !self.end.nil? && date > self.end
     true
   end
-  
+
+  def total_discount
+    total_fraction = self.discounts.map {|d| d.fraction}.reduce(1,:*)
+    (1 - total_fraction ) * 100
+  end
+
+  def invoice_for(year, month)
+    ","
+  end
 end
