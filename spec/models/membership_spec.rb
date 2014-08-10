@@ -24,6 +24,14 @@ RSpec.describe Membership, :type => :model do
     it {is_expected.not_to be_member_on(Date.parse("2013-11-16")) }
   end
 
+  describe "when it is created" do
+    let!(:second_membership) { user.memberships.create(membership_type: membertype,
+                                        start: Date.parse("2013-6-15"))}
+
+    specify { expect(membership.end).to eq(Date.parse("2013-06-14")) } 
+                                        
+  end
+
   describe "invoicing" do
 
     before { membership.end = Date.parse("2013-11-10")}
