@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Membership, :type => :model do
 
-  let(:user) { FactoryGirl.create(:user, gnucash_id: "FOO")}
-  let(:membertype) { FactoryGirl.create(:membership_type, name: "BAR", monthlycost: 23)}
-  let!(:membership) { user.memberships.create(membership_type: membertype,
-                                        start: Date.parse("2012-11-15"))}
+  let!(:user) { FactoryGirl.create(:user, gnucash_id: "FOO")}
+  let!(:membertype) { FactoryGirl.create(:membership_type, name: "BAR", monthlycost: 23)}
+  let!(:membership) { FactoryGirl.create(:membership, user: user, membership_type: membertype,  
+                                                     start: Date.parse("2012-11-15"), end: nil) }
   
   subject { membership }
 
@@ -24,12 +24,18 @@ RSpec.describe Membership, :type => :model do
     it {is_expected.not_to be_member_on(Date.parse("2013-11-16")) }
   end
 
-  describe "when it is created" do
-    let!(:second_membership) { user.memberships.create(membership_type: membertype,
-                                        start: Date.parse("2013-6-15"))}
-
-    specify { expect(membership.end).to eq(Date.parse("2013-06-14")) } 
-                                        
+  describe "when a membeship is created" do
+    
+    let!(:another_membership) { FactoryGirl.create(:membership, user: user, membership_type: membertype,  
+                                                 start: Date.parse("2013-11-15"), end: nil) }
+  
+    context "if there are other memberships associated with user" do
+      it "sets the end date for any of them that have a nil end date" do
+        expect(Membership.find_by(start: Date.parse("2012-11-15"))).not_to be_nil        
+        expect(Membership.find_by(start: Date.parse("2012-11-15")).end).not_to be_nil        
+        expect(Membership.find_by(start: Date.parse("2012-11-15")).end ).to eq(Date.parse("2013-11-14"))
+      end
+    end
   end
 
   describe "invoicing" do
