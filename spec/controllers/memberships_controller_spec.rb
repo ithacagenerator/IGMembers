@@ -11,10 +11,10 @@ describe MembershipsController, :type => :controller do
   # MembershipTypesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET users/invoices?month=x&year=y" do
-    it "assigns the requested membership_type as @membership_type" do
-      get 'users/invoices', {:month => 3, :year => 2014}, valid_session
-      expect(response.status).to eq(200)
+  describe "GET invoices?month=x&year=y" do
+    it "displays the invoices for the requested month and year" do
+      visit '/invoices?month=3&year=2014'
+      expect(page).to have_content 'blah'
     end
   end
 
