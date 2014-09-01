@@ -28,6 +28,7 @@ group :test do
   gem 'childprocess'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
+  gem 'launchy'
 end
 
 gem 'sass-rails', '~> 4.0'

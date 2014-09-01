@@ -43,7 +43,7 @@ class MembershipsController < ApplicationController
   end
   
   def show_invoices 
-
+      
   end
   
 end
