@@ -67,4 +67,22 @@ class Membership < ActiveRecord::Base
       due_date, account_posted, memo_posted, accu_splits
     ].join(',')
   end
+  
+  def enforce_at_most_one_open_membership_for_user
+    new_end_date = self.start.prev_day unless self.start.nil?
+
+    if !self.user.nil?
+      self.user.memberships.each do |m|
+        if m.id != self.id && m.end.nil?        
+          m.update_attributes(end: new_end_date)
+          m.save!
+        end
+      end
+    end
+  end
+  
+  def user=(the_user)
+    self.user_id = the_user.id unless the_user.nil?
+    self.enforce_at_most_one_open_membership_for_user
+  end
 end

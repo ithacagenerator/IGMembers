@@ -13,7 +13,14 @@ class MembershipsController < ApplicationController
     @user = User.find_by_id(p[:user_id])
     @membership = @user.memberships.new(p)
     if @membership.save
-      flash[:success] = "New membership created for #{@user.name}"
+
+      @user.memberships.each do |m|
+        if m.id != @membership.id && m.end.nil?
+          m.end = @membership.start - 1.day
+        end      
+      end
+      
+      flash[:success] = "New membership create for #{@user.name}"
       redirect_to @user
     else
       render 'new'
