@@ -13,7 +13,7 @@ class MembershipsController < ApplicationController
     @user = User.find_by_id(p[:user_id])
     @membership = @user.memberships.new(p)
     if @membership.save
-      flash[:success] = "New membership create for #{@user.name}"
+      flash[:success] = "New membership created for #{@user.name}"
       redirect_to @user
     else
       render 'new'
