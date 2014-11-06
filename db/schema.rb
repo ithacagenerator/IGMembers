@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141106012526) do
+ActiveRecord::Schema.define(version: 20141106020705) do
 
   create_table "discounts", force: true do |t|
     t.string   "name"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20141106012526) do
     t.string   "phone"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "gnucash_id"
   end
 
   create_table "membership_types", force: true do |t|
@@ -47,36 +48,26 @@ ActiveRecord::Schema.define(version: 20141106012526) do
 
   create_table "memberships", force: true do |t|
     t.integer  "membership_type_id"
-    t.integer  "user_id"
     t.date     "start"
     t.date     "end"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "member_id"
   end
 
   add_index "memberships", ["membership_type_id"], name: "index_memberships_on_membership_type_id"
-  add_index "memberships", ["user_id"], name: "index_memberships_on_user_id"
 
   create_table "users", force: true do |t|
-    t.string   "name"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "password_digest"
     t.string   "remember_token"
-    t.boolean  "admin",               default: false
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
-    t.integer  "membership_type_id"
-    t.date     "membership_date"
-    t.string   "gnucash_id"
-    t.date     "membership_end_date"
+    t.boolean  "admin",           default: false
+    t.integer  "member_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["membership_type_id"], name: "index_users_on_membership_type_id"
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
 end

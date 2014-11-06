@@ -2,26 +2,26 @@ class MembershipsController < ApplicationController
   before_action :admin_user
 
   def new
-    @user = User.find_by_id(params[:user])
-    @membership = @user.memberships.build()
+    @member = Member.find_by_id(params[:member])
+    @membership = @member.memberships.build()
   end
   
   def create
-    p = params.require(:membership).permit(:user_id,
+    p = params.require(:membership).permit(:member_id,
       :membership_type_id,
       :start, :end) 
-    @user = User.find_by_id(p[:user_id])
-    @membership = @user.memberships.new(p)
+    @member = Member.find_by_id(p[:member_id])
+    @membership = @member.memberships.new(p)
     if @membership.save
 
-      @user.memberships.each do |m|
+      @member.memberships.each do |m|
         if m.id != @membership.id && m.end.nil?
           m.end = @membership.start - 1.day
         end      
       end
       
-      flash[:success] = "New membership create for #{@user.name}"
-      redirect_to @user
+      flash[:success] = "New membership create for #{@member.name}"
+      redirect_to @member
     else
       render 'new'
     end
@@ -36,7 +36,7 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
     if @membership.update_attributes(p)
       flash[:success] = "Membership updated"
-      redirect_to @membership.user
+      redirect_to @membership.member
     else
       render 'edit'
     end

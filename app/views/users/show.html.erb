@@ -1,24 +1,5 @@
-<% provide(:title, @user.name) %>
+<% provide(:title, @user.email) %>
 <div class="row">
-<h1><%= @user.name %></h1>
-  <div class="col-md-1 column">
-    <%= gravatar_for @user %>
-  </div>
-  <div class="col-md-11 column">
-    <address>
-      <%= @user.street %><br />
-      <%= "#{@user.city}, #{@user.state} #{@user.zip}" %><br />
-      <abbr title="Email">E:</abbr> <%= @user.email %> <br />
-    </address> 
-    <% if @user.memberships.any?  %>
-      <ul class="memberships">
-	<%= render @memberships %>
-      </ul>      
-    <% end %>
-    <% if current_user.admin? %>
-      <%= link_to "Add Membership", new_membership_path(user: @user) %>
-      <br/>
-      <%= @user.invoice_for(2014,7) %>
-    <% end %>
-  </div>
+<h1><%= @user.email %></h1>
+
 </div>
