@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140807004713) do
+ActiveRecord::Schema.define(version: 20141106012526) do
 
   create_table "discounts", force: true do |t|
     t.string   "name"
@@ -23,6 +23,19 @@ ActiveRecord::Schema.define(version: 20140807004713) do
   create_table "discounts_memberships", id: false, force: true do |t|
     t.integer "membership_id", null: false
     t.integer "discount_id",   null: false
+  end
+
+  create_table "members", force: true do |t|
+    t.string   "lname"
+    t.string   "fname"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "membership_types", force: true do |t|
