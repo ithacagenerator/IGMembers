@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Membership, :type => :model do
 
-  let!(:member) { FactoryGirl.create(:member, gnucash_id: "FOO")}
+  let!(:member) { FactoryGirl.create(:member)}
   let!(:membertype) { FactoryGirl.create(:membership_type, name: "BAR", monthlycost: 23)}
   let!(:membership) { FactoryGirl.create(:membership, member: member, membership_type: membertype,
                                                      start: Date.parse("2012-11-15"), end: nil) }
@@ -50,9 +50,9 @@ RSpec.describe Membership, :type => :model do
 
     describe "generates csv" do
       before { @invoice = membership.invoice_for(2013,5).split(",", -1)}
-      specify {expect(@invoice[0]).to eq("FOO-1305")} # Invoice ID
+      specify {expect(@invoice[0]).to eq("#{membership.member.gnucash_id}-1305")} # Invoice ID
       specify {expect(@invoice[1]).to eq(Date.today().to_s())} # Date Opened
-      specify {expect(@invoice[2]).to eq("FOO")} # Owner Id
+      specify {expect(@invoice[2]).to eq("#{membership.member.gnucash_id}")} # Owner Id
       specify {expect(@invoice[3]).to be_empty} # Billing ID
       specify {expect(@invoice[4]).to be_empty} # Notes
       specify {expect(@invoice[5]).to eq("2013-05-15")} # Invoice Date

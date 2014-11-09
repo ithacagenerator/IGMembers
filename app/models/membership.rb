@@ -2,18 +2,18 @@ class Membership < ActiveRecord::Base
   belongs_to :membership_type
   belongs_to :member
   has_and_belongs_to_many :discounts
-  
+
   validates :membership_type, presence: true
   validates :start, presence: true
-  
+
   def invoice_date_for(year, month)
     Date.new(year, month, self.start.day)
   end
 
   def invoiceable_on?(year, month)
     member_on?(invoice_date_for(year, month))
-  end    
-  
+  end
+
   def member_on?(date)
     return false if date < self.start
     return false if !self.end.nil? && date > self.end
@@ -23,7 +23,7 @@ class Membership < ActiveRecord::Base
   def total_fraction
     discounts.map {|d| d.fraction}.reduce(1,:*)
   end
-  
+
   def total_discount
     (1 - total_fraction) * 100
   end
@@ -31,15 +31,15 @@ class Membership < ActiveRecord::Base
   def cost
     membership_type.monthlycost
   end
-  
+
   def invoice_for(year, month)
     invoice_date = invoice_date_for(year, month)
 
     # GnuCash invoice has 22 fields
-    
-    id = "#{user.gnucash_id}-#{invoice_date.strftime('%y%m')}" # invoice id #
+
+    id = "#{member.gnucash_id}-#{invoice_date.strftime('%y%m')}" # invoice id #
     date_opened = Date.today().to_s()
-    owner_id = user.gnucash_id
+    owner_id = member.gnucash_id
     billingid = ""
     discount_list = discounts.map{|d| "#{d.percent}% #{d.name}"}.join(' and ' )
     notes = discounts.any? ? "#{discount_list} #{'discount'.pluralize(discounts.count)} applied" : ""
@@ -67,22 +67,22 @@ class Membership < ActiveRecord::Base
       due_date, account_posted, memo_posted, accu_splits
     ].join(',')
   end
-  
-  def enforce_at_most_one_open_membership_for_user
+
+  def enforce_at_most_one_open_membership_for_member
     new_end_date = self.start.prev_day unless self.start.nil?
 
-    if !self.user.nil?
-      self.user.memberships.each do |m|
-        if m.id != self.id && m.end.nil?        
+    if !self.member.nil?
+      self.member.memberships.each do |m|
+        if m.id != self.id && m.end.nil?
           m.update_attributes(end: new_end_date)
           m.save!
         end
       end
     end
   end
-  
-  def user=(the_user)
-    self.user_id = the_user.id unless the_user.nil?
-    self.enforce_at_most_one_open_membership_for_user
+
+  def member=(the_member)
+    self.member_id = the_member.id unless the_member.nil?
+    self.enforce_at_most_one_open_membership_for_member
   end
 end

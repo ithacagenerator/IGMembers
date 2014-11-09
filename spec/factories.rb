@@ -14,11 +14,12 @@ FactoryGirl.define do
     sequence(:lname) { |n| "Person #{n}"}
     sequence(:fname) { |n| "Person #{n}"}
     sequence(:email) { |n| "person_#{n}@example.com"}
-    sequence(:street) { |n| "#{n} Test Drive"}
+    sequence(:address) { |n| "#{n} Test Drive"}
     city "Testberg"
     state "NY"
     zip "11111"
-
+    phone "123-456-7890"
+    sequence(:gnucash_id) {|n| "#{n}"}
     memberships {[FactoryGirl.create(:membership)]}
   end
 

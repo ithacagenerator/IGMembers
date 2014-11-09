@@ -132,6 +132,12 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include Capybara::DSL
+
+#  config.after do |example|
+#     if example.metadata[:type] == :feature and example.exception.present?
+#       save_and_open_page
+#     end
+#   end
 end
 
 

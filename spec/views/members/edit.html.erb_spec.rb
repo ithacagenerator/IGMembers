@@ -9,7 +9,7 @@ RSpec.describe "members/edit", :type => :view do
       :city => "MyString",
       :state => "MyString",
       :zip => "MyString",
-      :email => "MyString",
+      :email => "MyString@MyDomain.com",
       :phone => "MyString"
     ))
   end
@@ -17,7 +17,7 @@ RSpec.describe "members/edit", :type => :view do
   it "renders the edit member form" do
     render
 
-    assert_select "form[action=?][method=?]", member_path(@member), "post" do
+      assert_select "form[action=?][method=?]", member_path(@member), "post" do
 
       assert_select "input#member_lname[name=?]", "member[lname]"
 
