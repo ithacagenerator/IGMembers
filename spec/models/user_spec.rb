@@ -1,35 +1,13 @@
 require 'spec_helper'
 
 describe User, :type => :model do
-
-#  before(:all) do
-#    MembershipType.create(name: "Basic", monthlycost: 20 )
-#    MembershipType.create(name: "Extra", monthlycost: 75 )
-#    Discount.create(name: "Student", percent: 25 )
-#    Discount.create(name: "Family1", percent: 50 )
-#  end
-#  after(:all) do
-#    MembershipType.delete_all()
-#    Discount.delete_all()
-#  end
-  
-  
-  
   before do
-  #   pp(MembershipType.all)
-    membertype = MembershipType.create(name: "Basic", monthlycost: 20 )
-    membership = Membership.create(user: @user,
-    membership_type: membertype, start: Date.today())
-    @user = User.new(name: "Example User", email: "user@example.com",
-      street: "123 Example Way", city: "Exampleville",
-      state: "EX", zip: "00000",
-      memberships: [membership], 
+    @user = User.new(email: "user@example.com",
       password: "foobar", password_confirmation: "foobar" )
   end
 
   subject { @user }
 
-  it { is_expected.to respond_to(:name) }
   it { is_expected.to respond_to(:email) }
   it { is_expected.to respond_to(:password_digest) }
   it { is_expected.to respond_to(:password) }
@@ -37,21 +15,6 @@ describe User, :type => :model do
   it { is_expected.to respond_to(:remember_token) }
   it { is_expected.to respond_to(:authenticate) }
   it { is_expected.to respond_to(:admin) }
-
-  it { is_expected.to respond_to(:street) }
-  it { is_expected.to respond_to(:city) }
-  it { is_expected.to respond_to(:state) }
-  it { is_expected.to respond_to(:zip) }
-
-  it { is_expected.to respond_to(:membership_type) }
-  it { is_expected.to respond_to(:membership_date) }
-  it { is_expected.to respond_to(:membership_end_date) }
-  it { is_expected.not_to respond_to(:discounts) }
-
-  it { is_expected.to respond_to(:memberships) }
-
-  it { is_expected.to respond_to(:gnucash_id) }
-
   it { is_expected.to be_valid }
   it { is_expected.not_to be_admin }
 
@@ -63,40 +26,10 @@ describe User, :type => :model do
 
     it {is_expected.to be_admin }
   end
-  
-  describe "when name is not present" do
-    before {@user.name = " "}
-    it { is_expected.not_to be_valid }
-  end
 
   describe "when email is not present" do
     before { @user.email = " "}
     it { is_expected.not_to be_valid }
-  end
-
-  describe "when street is not present" do
-    before { @user.street = " "}
-    it { is_expected.not_to be_valid }
-  end
-  describe "when city is not present" do
-    before { @user.city = " "}
-    it { is_expected.not_to be_valid }
-  end
-
-  describe "when state is not present" do
-    before { @user.state = " "}
-    it { is_expected.not_to be_valid }
-  end
-
-  describe "when zip is not present" do
-    before { @user.zip = " "}
-    it { is_expected.not_to be_valid }
-  end
-
-
-  describe "when name is too long" do
-    before {@user.name = "a" * 51 }
-    it {is_expected.not_to be_valid }
   end
 
   describe "when email format is invalid" do
@@ -131,7 +64,7 @@ describe User, :type => :model do
 
   describe "when password is not present" do
     before do
-      @user = User.new(name: "Example User", email: "user@example.com",
+      @user = User.new(email: "user@example.com",
                        password: " ", password_confirmation: " ")
     end
     it {is_expected.not_to be_valid }
@@ -172,93 +105,4 @@ describe User, :type => :model do
     end
   end
 
-  describe "knows if member" do
-    
-    before do
-      membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
-      membership = Membership.create(membership_type: membertype, start: Date.parse("2012-11-15"))
-      @user.memberships << membership
-    end
-    it {is_expected.to be_member_on(Date.parse("2012-11-15")) }
-    it {is_expected.to be_member_on(Date.parse("2015-11-15")) }
-    it {is_expected.to_not be_member_on(Date.parse("2012-11-14")) }
-  end
-
-  describe "knows if expired member" do
-    before do
-      membertype =     MembershipType.create(name: "Basic", monthlycost: 20 )
-      membership = Membership.create(membership_type: membertype,
-        start: Date.parse("2012-11-15"),
-        end: Date.parse("2015-10-10"))
-      @user.memberships = [ membership ]
-    end    
-    
-    it {is_expected.to_not be_member_on(Date.parse("2012-11-14")) }
-    it {is_expected.to be_member_on(Date.parse("2012-11-15")) }
-    it {is_expected.to be_member_on(Date.parse("2015-10-10")) }
-    it {is_expected.to_not be_member_on(Date.parse("2015-10-11")) }
-
-    describe "but has renewed" do
-      before do
-        membertype = MembershipType.create(name: "Basic", monthlycost: 20 )
-        membership = Membership.create(membership_type: membertype,
-          start: Date.parse("2016-11-15"))
-        @user.memberships << membership
-      end    
-
-    it {is_expected.to be_member_on(Date.parse("2015-10-10")) }
-    it {is_expected.to_not be_member_on(Date.parse("2015-10-11")) }
-    it {is_expected.to_not be_member_on(Date.parse("2016-11-14")) }
-    it {is_expected.to be_member_on(Date.parse("2016-11-15")) }
-        
-      
-    end  
-  end
-  
-  describe "can compute cost" do
-    describe '#cost' do
-      subject { super().cost }
-      it { is_expected.to eq(20) }
-    end
-
-#    describe "without a discount" do
-#      before do
-#        @user.discounts = []        
-#      end
-#
-#      subject { super().total_discount }
-#      it { is_expected.to eq(0)}
-#    end    
-
-#    describe "with a discount" do
-#      before do
-#        # @user.discounts = [Discount.new(percent: 25)]        
-#      end
-#
-#      subject { super().total_discount }
-#      it { is_expected.to eq(25)}
-#    end    
-    
-#    describe "with multiple discounts" do
-#      before do
-#        @user.discounts = [Discount.new(percent: 25),
-#          Discount.new(percent:50)]        
-#      end
-#
-#      subject { super().total_discount }
-#      it { is_expected.to eq(62.5)}
-#    end
-
-#    xdescribe "has invoice" do
-#      let(:invoice) { @user.invoice_for(2013,5).split(',')}
-#
-#      before do
-#        @user.gnucash_id = "EXP"
-#        @user.membership_date = Date.parse("2012.11.15")
-#      end
-
-#      expect(invoice[0]).to eq("EXP-1305") # Invoice id
-      
-#    end      
-  end
 end

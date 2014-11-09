@@ -2,18 +2,18 @@ require 'rails_helper'
 
 RSpec.describe Membership, :type => :model do
 
-  let!(:user) { FactoryGirl.create(:user, gnucash_id: "FOO")}
+  let!(:member) { FactoryGirl.create(:member, gnucash_id: "FOO")}
   let!(:membertype) { FactoryGirl.create(:membership_type, name: "BAR", monthlycost: 23)}
-  let!(:membership) { FactoryGirl.create(:membership, user: user, membership_type: membertype,  
+  let!(:membership) { FactoryGirl.create(:membership, member: member, membership_type: membertype,
                                                      start: Date.parse("2012-11-15"), end: nil) }
-  
+
   subject { membership }
 
   it { is_expected.to respond_to(:membership_type)}
   it { is_expected.to respond_to(:start)}
   it { is_expected.to respond_to(:end)}
   it { is_expected.to respond_to(:discounts) }
-  
+
   it { is_expected.to be_member_on(Date.parse("2012-11-15")) }
   it { is_expected.not_to be_member_on(Date.parse("2012-11-14")) }
 
@@ -25,14 +25,14 @@ RSpec.describe Membership, :type => :model do
   end
 
   describe "when a membeship is created" do
-    
-    let!(:another_membership) { FactoryGirl.create(:membership, user: user, membership_type: membertype,  
+
+    let!(:another_membership) { FactoryGirl.create(:membership, member: member, membership_type: membertype,
                                                  start: Date.parse("2013-11-15"), end: nil) }
-  
-    context "if there are other memberships associated with user" do
+
+    context "if there are other memberships associated with member" do
       it "sets the end date for any of them that have a nil end date" do
-        expect(Membership.find_by(start: Date.parse("2012-11-15"))).not_to be_nil        
-        expect(Membership.find_by(start: Date.parse("2012-11-15")).end).not_to be_nil        
+        expect(Membership.find_by(start: Date.parse("2012-11-15"))).not_to be_nil
+        expect(Membership.find_by(start: Date.parse("2012-11-15")).end).not_to be_nil
         expect(Membership.find_by(start: Date.parse("2012-11-15")).end ).to eq(Date.parse("2013-11-14"))
       end
     end
@@ -41,13 +41,13 @@ RSpec.describe Membership, :type => :model do
   describe "invoicing" do
 
     before { membership.end = Date.parse("2013-11-10")}
-    
+
     it { is_expected.not_to be_invoiceable_on(2012,10)}
     it { is_expected.to be_invoiceable_on(2012,11)}
     it { is_expected.to be_invoiceable_on(2013,5)}
     it { is_expected.to be_invoiceable_on(2013,10)}
     it { is_expected.not_to be_invoiceable_on(2013,11)}
-    
+
     describe "generates csv" do
       before { @invoice = membership.invoice_for(2013,5).split(",", -1)}
       specify {expect(@invoice[0]).to eq("FOO-1305")} # Invoice ID
@@ -63,7 +63,7 @@ RSpec.describe Membership, :type => :model do
       specify {expect(@invoice[10]).to eq("23.00")} # Price
       specify {expect(@invoice[11]).to eq("%")} # Discount Types
       specify {expect(@invoice[12]).to be_empty} # Discount How
-      specify {expect(@invoice[13]).to eq("0")} # discount 
+      specify {expect(@invoice[13]).to eq("0")} # discount
       specify {expect(@invoice[14]).to be_empty} # Taxable
       specify {expect(@invoice[15]).to be_empty} # Tax included
       specify {expect(@invoice[16]).to be_empty} # Tax Table
@@ -80,7 +80,7 @@ RSpec.describe Membership, :type => :model do
 
       # GnuCash 2.6.3 has Bug 734183 - Importing invoices with discounts yields invoice line items with incorrect subtotals and bizzare editing behavior
       # which affects this import. The current workaround is to pre-compute the discount, rather than letting GnuCash do it.
-      
+
       specify {expect(@invoice[10]).to eq("20.70")}
       specify {expect(@invoice[13]).to eq("0")}
       specify {expect(@invoice[4]).to eq("10.0% TestingDiscount discount applied")}
@@ -94,7 +94,7 @@ RSpec.describe Membership, :type => :model do
 
       # GnuCash 2.6.3 has Bug 734183 - Importing invoices with discounts yields invoice line items with incorrect subtotals and bizzare editing behavior
       # which affects this import. The current workaround is to pre-compute the discount, rather than letting GnuCash do it.
-      
+
       specify {expect(@invoice[10]).to eq("17.60")} # 23 * .90 * .85 = 17.595
       specify {expect(@invoice[13]).to eq("0")}
       specify {expect(@invoice[4]).to eq("10.0% Fred and 15.0% Wilma discounts applied")}

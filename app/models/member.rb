@@ -25,6 +25,21 @@ class Member < ActiveRecord::Base
     active.first if active.any?
   end
 
+  def membership_end_date
+      if current_membership
+        current_membership.end_date
+      else
+        nil
+      end
+  end
+
+  def membership_date
+      if current_membership
+        current_membership.start_date
+      else
+        nil
+      end
+  end
 
   def membership_type
     current_membership.membership_type if current_member?
