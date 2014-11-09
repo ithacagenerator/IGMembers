@@ -43,9 +43,9 @@
     <% if @member.memberships.any?  %>
       <ul class="memberships">
 	<%= render @memberships %>
-      </ul>      
+      </ul>
     <% end %>
-    <% if current_user.admin? %>
+    <% if current_user && current_user.admin? %>
       <%= link_to "Add Membership", new_membership_path(member: @member) %>
       <br/>
       <%= @member.invoice_for(2014,7) %>

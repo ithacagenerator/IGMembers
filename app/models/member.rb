@@ -14,7 +14,6 @@ class Member < ActiveRecord::Base
   validates :zip, presence: true
   validates :phone, presence: true
   validates_uniqueness_of :gnucash_id, :allow_blank => true, :case_sensitive => true
-  validates :gnucash_id, uniqueness: true
 
   def name
     "#{self.fname} #{self.lname}"

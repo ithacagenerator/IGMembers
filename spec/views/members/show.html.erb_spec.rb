@@ -9,8 +9,9 @@ RSpec.describe "members/show", :type => :view do
       :city => "City",
       :state => "State",
       :zip => "Zip",
-      :email => "Email",
-      :phone => "Phone"
+      :email => "email@acme.inc",
+      :phone => "Phone",
+      :gnucash_id => "adsfasdf"
     ))
   end
 
@@ -22,7 +23,7 @@ RSpec.describe "members/show", :type => :view do
     expect(rendered).to match(/City/)
     expect(rendered).to match(/State/)
     expect(rendered).to match(/Zip/)
-    expect(rendered).to match(/Email/)
+    expect(rendered).to match(/email@acme.inc/)
     expect(rendered).to match(/Phone/)
   end
 end
