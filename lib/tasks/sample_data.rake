@@ -22,25 +22,24 @@ namespace :db do
       admin: true
     )
       
-=begin
-    basic = MembershipType.find_by_name("Basic")    
-    99.times do |n|
-      name = Faker::Name.name
+    basic = MembershipType.find_by_name("Basic")
+    19.times do |n|
+      fname = Faker::Name.first_name
+      lname = Faker::Name.last_name
       email = "example-#{n+1}@railstutorial.org"
-      password = "password"
-      User.create!(name: name,
-        email: email,
-        street: Faker::Address.street_address,
-        city: Faker::Address.city,
-        state: Faker::Address.state_abbr,
-        zip: Faker::Address.zip,
-        password: password,
-        password_confirmation: password,
-        membership_type: basic,
-        membership_date:  Date.today())
+      Member.create!(
+          fname: fname,
+          lname: lname,
+          email: email,
+          address: Faker::Address.street_address,
+          city: Faker::Address.city,
+          state: Faker::Address.state_abbr,
+          zip: Faker::Address.zip,
+          phone: Faker::PhoneNumber.phone_number,
+      )
     end
-=end
   end
 end
+
 
     

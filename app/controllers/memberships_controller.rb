@@ -1,5 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :admin_user
+  before_action :set_membership, only: [:show, :edit, :update, :destroy]
 
   def new
     @member = Member.find_by_id(params[:member])
@@ -28,14 +29,13 @@ class MembershipsController < ApplicationController
   end
 
   def edit
-    @membership = Membership.find(params[:id])
   end
 
   def update
     p = params.require(:membership).permit(:membership_type_id, :start, :end)
     @membership = Membership.find(params[:id])
     if @membership.update_attributes(p)
-      flash[:success] = "Membership updated"
+      flash[:success] = 'Membership updated'
       redirect_to @membership.member
     else
       render 'edit'
@@ -45,5 +45,11 @@ class MembershipsController < ApplicationController
   def show_invoices 
       
   end
-  
+
+  private
+
+  def set_membership
+    @membership = Membership.find(params[:id])
+  end
+
 end

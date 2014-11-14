@@ -1,5 +1,5 @@
 class MembersController < ApplicationController
-  before_action :set_member, only: [:show, :edit, :update, :destroy]
+  before_action :set_member,     only: [:edit, :update, :show, :destroy]
 
   # GET /members
   # GET /members.json
@@ -10,7 +10,6 @@ class MembersController < ApplicationController
   # GET /members/1
   # GET /members/1.json
   def show
-      @member = Member.find(params[:id])
       @memberships = @member.memberships
   end
 
@@ -64,10 +63,11 @@ class MembersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_member
-      @member = Member.find(params[:id])
-    end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_member
+    @member = Member.find(params[:id])
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
