@@ -1,8 +1,7 @@
 <%= render 'shared/error_messages', f: f %>
 
 <%= f.input :member_id, as: :hidden %>
-<%= f.association :membership_type %>
+<%= f.association :membership_type, include_blank: false %>
 <%= f.input :start, as: :date %>
 <%= f.input :end, as: :date, include_blank: true %>
 <%= f.association :discounts, as: :check_boxes %>
-
