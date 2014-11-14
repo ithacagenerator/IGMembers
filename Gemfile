@@ -35,6 +35,7 @@ gem 'sass-rails', '~> 4.0'
 gem 'uglifier', '~> 2.1'
 gem 'coffee-rails', '~> 4.0'
 gem 'jquery-rails', '~> 3.0'
+gem 'jquery-ui-rails'
 gem 'turbolinks', '~> 2.0'
 gem 'jbuilder', '~> 2.0'
 
