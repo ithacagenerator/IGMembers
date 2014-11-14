@@ -12,15 +12,6 @@ describe "StaticPages", :type => :request do
     it { is_expected.to have_title(full_title(page_title)) }
   end
 
-  describe "Home page" do
-    before {visit root_path}
-    let(:heading)    {'Ithaca Generator Membership'}
-    let(:page_title) {''}
-
-    it_should_behave_like "all static pages"
-    it { is_expected.not_to have_title('| Home') }
-  end
-
   describe "Copyrights page" do
     before {visit copyrights_path}
     let(:heading) {'Copyright Licenses'}
