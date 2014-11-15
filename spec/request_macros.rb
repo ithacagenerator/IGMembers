@@ -7,12 +7,14 @@ module RequestMacros
   end
 
   def select_date(date, options = {})
-    raise ArgumentError, 'from is a required option' if options[:from].blank?   
+    raise ArgumentError, 'from is a required option' if options[:from].blank?
     field = options[:from]
-    year, month, day = date.strftime("%Y,%B,%e").split(',').map(&:strip)
-    select year,  :from => "#{field}_1i"
-    select month, :from => "#{field}_2i"
-    select day,   :from => "#{field}_3i"
+    fill_in field, with: date
+#    fill_in date, from: field
+    # year, month, day = date.strftime("%Y,%B,%e").split(',').map(&:strip)
+    # select year,  :from => "#{field}_1i"
+    # select month, :from => "#{field}_2i"
+    # select day,   :from => "#{field}_3i"
   end
      
 end
