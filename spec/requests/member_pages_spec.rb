@@ -113,8 +113,6 @@ describe 'MemberPages', :type => :request do
     end
 
     describe 'edit' do
-      before { Discount.create(name: 'Student', percent: 25 ) }
-      before { Discount.create(name: 'Family1', percent: 50 ) }
 
       let(:member) {FactoryGirl.create(:member)}
       before do
@@ -126,9 +124,14 @@ describe 'MemberPages', :type => :request do
       end
 
       describe 'with invalid information' do
-        before {click_button 'Save changes' }
-        pending 'Probably should have one describe per validated form field'
-        #it { is_expected.to have_content('error')}
+        describe 'with empty city' do
+          before do
+            fill_in 'City', with: ''
+            click_button 'Update Member'
+          end
+          
+          it {is_expected.to have_content("can't be blank")}
+        end
       end
 
       describe 'with valid information' do
