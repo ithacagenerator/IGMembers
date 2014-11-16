@@ -6,11 +6,11 @@ RSpec.describe "MembershipPages", :type => :request do
 
   let(:admin) { FactoryGirl.create(:admin)}
   let(:member) { FactoryGirl.create(:member) }
-  let!(:mtype1) { FactoryGirl.create(:membership_type, name: "Foo") }
+  let!(:membertype1) { FactoryGirl.create(:membership_type, name: "Foo") }
   let!(:mtype2) { FactoryGirl.create(:membership_type, name: "Bar") }
   let!(:m1) { FactoryGirl.create(:membership,
                                  member: member,
-                                 membership_type: mtype1,
+                                 membership_type: membertype1,
                                  start: Date.parse("2011-11-15"),
                                  end: Date.parse("2012-11-14")) }
   let!(:m2) { FactoryGirl.create(:membership,

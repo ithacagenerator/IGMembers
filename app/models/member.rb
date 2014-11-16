@@ -8,6 +8,8 @@ class Member < ActiveRecord::Base
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 
   has_many :memberships
+  has_one :user
+
   validates :address, presence: true
   validates :city, presence: true
   validates :state, presence: true
