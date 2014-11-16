@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20141116082212) do
 
   create_table "memberships", force: true do |t|
     t.integer  "membership_type_id"
+    t.integer  "users_id"
     t.date     "start"
     t.date     "end"
     t.datetime "created_at"
@@ -69,6 +70,7 @@ ActiveRecord::Schema.define(version: 20141116082212) do
   end
 
   add_index "memberships", ["membership_type_id"], name: "index_memberships_on_membership_type_id"
+  add_index "memberships", ["users_id"], name: "index_memberships_on_users_id"
 
   create_table "users", force: true do |t|
     t.string   "email"
