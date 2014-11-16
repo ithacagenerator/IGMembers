@@ -6,15 +6,13 @@ class MembershipsController < ApplicationController
     @member = Member.find_by_id(params[:member])
     @membership = @member.memberships.build()
   end
-  
+
   def create
  #   params[:memberships][:discount_ids] ||= []
  #   params[:memberships][:checklist_item_ids] ||= []
 
-    p = params.require(:membership).permit(:member_id,
-      :membership_type_id,
-      :start, :end, :discount_ids, :checklist_item_ids)
-
+    p = params.require(:membership).permit(:member_id, :membership_type_id,
+      :start, :end, discount_ids: [], checklist_item_ids: [])
 
     @member = Member.find_by_id(p[:member_id])
     @membership = @member.memberships.new(p)
@@ -24,9 +22,9 @@ class MembershipsController < ApplicationController
       @member.memberships.each do |m|
         if m.id != @membership.id && m.end.nil?
           m.end = @membership.start - 1.day
-        end      
+        end
       end
-      
+
       flash[:success] = "New membership create for #{@member.name}"
       redirect_to @member
     else
@@ -47,9 +45,9 @@ class MembershipsController < ApplicationController
       render 'edit'
     end
   end
-  
-  def show_invoices 
-      
+
+  def show_invoices
+
   end
 
   private
