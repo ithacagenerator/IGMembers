@@ -1,13 +1,15 @@
 <%= semantic_form_for @member do |f| %>
-  <%= f.inputs do %>
-    <%= f.input :lname %>
-    <%= f.input :fname %>
-    <%= f.input :address %>
-    <%= f.input :city %>
-    <%= f.input :state %>
-    <%= f.input :zip %>
-    <%= f.input :email %>
-    <%= f.input :phone %>
+    <%= f.inputs do %>
+        <%= f.input :lname %>
+        <%= f.input :fname %>
+        <%= f.input :address %>
+        <%= f.input :city %>
+        <%= f.input :state %>
+        <%= f.input :zip %>
+        <%= f.input :email, as: :email %>
+        <%= f.input :phone, as: :phone %>
+        <%= f.input :birthdate %>
+        <%= f.input :parent %>
     <%= f.input :gnucash_id %>
   <% end %>
 

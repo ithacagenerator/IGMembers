@@ -40,7 +40,17 @@
   <%= @member.phone %>
 </p>
 
-    <% if @member.memberships.any?  %>
+<p>
+  <strong>Birthdate:</strong>
+  <%= @member.birthdate %>
+</p>
+
+<p>
+  <strong>Parent:</strong>
+  <%= @member.parent %>
+</p>
+
+<% if @member.memberships.any?  %>
       <ul class="memberships">
 	<%= render @memberships %>
       </ul>
