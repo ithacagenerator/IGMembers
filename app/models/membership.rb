@@ -2,6 +2,7 @@ class Membership < ActiveRecord::Base
   belongs_to :membership_type
   belongs_to :member
   has_and_belongs_to_many :discounts
+  has_and_belongs_to_many :checklist_items
 
   validates :membership_type, presence: true
   validates :start, presence: true

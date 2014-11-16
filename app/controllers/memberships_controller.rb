@@ -8,11 +8,17 @@ class MembershipsController < ApplicationController
   end
   
   def create
+ #   params[:memberships][:discount_ids] ||= []
+ #   params[:memberships][:checklist_item_ids] ||= []
+
     p = params.require(:membership).permit(:member_id,
       :membership_type_id,
-      :start, :end) 
+      :start, :end, :discount_ids, :checklist_item_ids)
+
+
     @member = Member.find_by_id(p[:member_id])
     @membership = @member.memberships.new(p)
+    @membership.update_attributes p
     if @membership.save
 
       @member.memberships.each do |m|
