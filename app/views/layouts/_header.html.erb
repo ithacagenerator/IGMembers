@@ -2,14 +2,14 @@
   <div class="container">
     <div class="navbar-header">
       <%= link_to image_tag('gray_brown.png',
-			    alt:"Ithaca Generator",
-			    height: '90',
-          ),
-		  root_path, id: "logo", class: "navbar-brand navbar-left" %>
-      </div>
-      <div class="nav navbar-nav navbar-right">
-        <ul class="nav navbar-nav">
-          <% if signed_in? %>
+                            alt:"Ithaca Generator",
+                            height: '90',
+                  ),
+                  root_path, id: "logo", class: "navbar-brand navbar-left" %>
+    </div>
+    <div class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav">
+        <% if signed_in? %>
             <li><%= link_to "List Members", members_path %></li>
             <li><a href="/members/new">Add Member</a>
 
@@ -20,17 +20,19 @@
               </a>
               <ul class="dropdown-menu">
                 <li class="divider"></li>
-                  <li>
-                    <%= link_to "Sign out", signout_path, method:
-                    "delete" %>
-                  </li>
+                <li>
+                  <%= link_to 'Change Password', edit_user_path(current_user) %>
+                </li>
+                <li>
+                  <%= link_to "Sign out", signout_path, method:
+                          "delete" %>
+                </li>
               </ul>
             </li>
-          <% else %>
+        <% else %>
             <li><%= link_to "Sign in", signin_path %></li>
           <% end %>
-        </ul>
-      </div>
+      </ul>
     </div>
   </div>
 </header>

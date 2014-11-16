@@ -1,5 +1,9 @@
 SampleApp::Application.routes.draw do
+  get "user/edit"
+  get "user/update"
   resources :members
+
+  resources :users, only: [:edit, :update]
 
 #  resources :discounts
 
@@ -10,7 +14,7 @@ SampleApp::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
 
   root to: 'members#index'
-#  match '/signup',  to: 'users#new',            via: 'get'
+
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
   match '/help',    to: 'static_pages#help',    via: 'get'

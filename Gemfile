@@ -22,8 +22,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'capybara'
   gem 'libnotify'
-  gem 'spork-rails'
-  gem 'guard-spork'
   gem 'childprocess'
   gem 'factory_girl_rails'
   gem 'database_cleaner'

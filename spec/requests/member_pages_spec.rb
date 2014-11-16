@@ -129,7 +129,7 @@ describe 'MemberPages', :type => :request do
             fill_in 'City', with: ''
             click_button 'Update Member'
           end
-          
+
           it {is_expected.to have_content("can't be blank")}
         end
       end
