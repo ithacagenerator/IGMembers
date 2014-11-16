@@ -34,3 +34,27 @@ if ChecklistItem.all.empty?
                            { name: 'Notified communities of interest'},
                        ])
 end
+
+if Interest.all.empty?
+  Interest.create([
+                      { name: 'Electronics' },
+                      { name: 'Laser Cutting' },
+                      { name: 'Social Events' },
+                      { name: 'Photography' },
+                      { name: 'Arduino/Pi/etc' },
+                      { name: 'Software Development' },
+                      { name: 'Free Software/Open Source' },
+                      { name: 'Woodworking' },
+                      { name: 'Crafts' },
+                      { name: 'Cooking' },
+                      { name: 'Art' },
+                      { name: 'Web/Internet' },
+                      { name: '3D Printing' },
+                      { name: 'Textiles/Clothing' },
+                      { name: 'Game Design' },
+                      { name: 'Robotics' },
+                      { name: 'Metal Working' },
+                      { name: 'Tech and Society' },
+                      { name: 'STEM Education' },
+                  ])
+end

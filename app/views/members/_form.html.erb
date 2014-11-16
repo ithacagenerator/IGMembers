@@ -10,10 +10,11 @@
         <%= f.input :phone, as: :phone %>
         <%= f.input :birthdate, as: :date_picker %>
         <%= f.input :parent %>
-    <%= f.input :gnucash_id %>
-  <% end %>
+        <%= f.input :interests, as: :check_boxes %>
+        <%= f.input :gnucash_id %>
+    <% end %>
 
-  <%= f.actions do %>
-    <%= f.action :submit, :as => :input %>
-  <% end %>
+    <%= f.actions do %>
+        <%= f.action :submit, :as => :input %>
+    <% end %>
 <% end %>

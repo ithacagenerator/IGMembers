@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141116082212) do
+ActiveRecord::Schema.define(version: 20141116140037) do
 
   create_table "checklist_items", force: true do |t|
     t.string   "name"
@@ -34,6 +34,17 @@ ActiveRecord::Schema.define(version: 20141116082212) do
   create_table "discounts_memberships", id: false, force: true do |t|
     t.integer "membership_id", null: false
     t.integer "discount_id",   null: false
+  end
+
+  create_table "interests", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "interests_members", id: false, force: true do |t|
+    t.integer "interest_id", null: false
+    t.integer "member_id",   null: false
   end
 
   create_table "members", force: true do |t|

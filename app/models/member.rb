@@ -9,6 +9,7 @@ class Member < ActiveRecord::Base
 
   has_many :memberships
   has_one :user
+  has_and_belongs_to_many :interests
 
   validates :address, presence: true
   validates :city, presence: true
