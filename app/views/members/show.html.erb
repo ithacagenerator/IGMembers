@@ -50,6 +50,11 @@
   <%= @member.parent %>
 </p>
 
+<p>
+  <strong>Interests:</strong>
+  <%= @member.interests.map { |i| i.name}.join(', ') %>
+</p>
+
 <% if @member.memberships.any?  %>
       <ul class="memberships">
 	<%= render @memberships %>

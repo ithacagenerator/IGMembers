@@ -8,6 +8,11 @@
     from <%= membership.start.to_s %>
     until <%= membership.end.to_s %>
   <% end %>
+
+  <% if !membership.complete? %>
+  <%= membership.incomplete_checklist_items.count %> incomplete checklist items.
+  <% end %>
+
   <% if !current_user.nil? && current_user.admin? %>
     <%= link_to "Edit", edit_membership_path(membership) %>
   <% end %>

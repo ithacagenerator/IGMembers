@@ -21,6 +21,14 @@ class Membership < ActiveRecord::Base
     true
   end
 
+  def incomplete_checklist_items
+    ChecklistItem.all - checklist_items
+  end
+
+  def complete?
+    incomplete_checklist_items.empty?
+  end
+
   def total_fraction
     discounts.map {|d| d.fraction}.reduce(1,:*)
   end

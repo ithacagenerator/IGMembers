@@ -20,7 +20,11 @@
   <tbody>
     <% @members.each do |member| %>
       <tr>
-        <td><%= member.lname %></td>
+        <td>
+          <% if member.memberships.any? { |m| !m.complete? } %>
+              *
+          <% end %>
+          <%= member.lname %></td>
         <td><%= member.fname %></td>
         <td><%= member.address %></td>
         <td><%= member.city %></td>
