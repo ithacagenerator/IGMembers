@@ -18,6 +18,13 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(token.to_s)
   end
 
+  def send_password_reset
+    self.password_reset_token= User.digest(User.new_remember_token)
+    self.password_reset_sent_at= Time.zone.now
+    save!
+    UserMailer.password_reset(self).deliver
+  end
+
   private
 
   def create_remember_token

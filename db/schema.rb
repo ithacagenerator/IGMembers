@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141116140037) do
+ActiveRecord::Schema.define(version: 20141117003450) do
 
   create_table "checklist_items", force: true do |t|
     t.string   "name"
@@ -87,8 +87,10 @@ ActiveRecord::Schema.define(version: 20141116140037) do
     t.datetime "updated_at"
     t.string   "password_digest"
     t.string   "remember_token"
-    t.boolean  "admin",           default: false
+    t.boolean  "admin",                  default: false
     t.integer  "member_id"
+    t.string   "password_reset_token"
+    t.datetime "password_reset_sent_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
