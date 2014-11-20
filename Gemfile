@@ -10,6 +10,7 @@ gem 'faker', '~> 1.1'
 gem 'will_paginate', '~> 3.0'
 gem 'bootstrap-will_paginate', '~> 0.0'
 gem 'formtastic'
+gem 'mandrill-api'
 
 group :development do
   gem 'sqlite3', '~> 1.3'
