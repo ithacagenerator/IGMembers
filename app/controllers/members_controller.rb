@@ -5,6 +5,19 @@ class MembersController < ApplicationController
   # GET /members.json
   def index
     @members = Member.all
+
+    if params[:active]
+      @members = @members.select{|m| m.current_member?}
+    end
+    if params[:type]
+      @members = @members.select{|m| m.type_name == params[:type]}
+    end
+    if params[:checklist]
+      item = ChecklistItem.find_by_name(params[:checklist])
+      if item
+        @members = @members.select{|m| m.current_membership && !m.current_membership.checklist_items.include?(item) }
+      end
+    end
   end
 
   # GET /members/1
@@ -60,6 +73,14 @@ class MembersController < ApplicationController
       format.html { redirect_to members_url, notice: 'Member was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def dashboard
+    @members = Member.all
+    @active = @members.select {|m| m.current_membership }
+    @extra = @active.select { |m|    m.type_name == 'Extra' }
+    @standard = @active.select { |m|    m.type_name == 'Standard' }
+    @basic = @active.select { |m|    m.type_name == 'Basic' }
   end
 
   private

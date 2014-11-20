@@ -1,0 +1,27 @@
+<h1>Dashboard</h1>
+
+<h2>Membership Stats</h2>
+<ul>
+  <li>
+    <%= @members.count %> <%= link_to 'Total Member'.pluralize(@members.count), members_path %> (current and former)
+  </li>
+  <li>
+    <%= @active.count %> <%= link_to 'Active Member'.pluralize(@active.count), members_path(active:true) %>
+    <ul>
+      <% MembershipType.all.each do |type| %>
+          <li>
+            <%= @active.count {|m| m.membership_type == type } %> <%= link_to type.name, members_path(type: type.name) %>
+          </li>
+      <% end %>
+    </ul>
+  </li>
+</ul>
+
+<h2>Checklist Items</h2>
+<ul>
+  <% ChecklistItem.all.each do |item| %>
+      <li>
+        <%= @active.count {|m| ! m.current_membership.checklist_items.include?(item)} %> need <%= link_to item.name, members_path(checklist: item.name) %>
+      </li>
+  <% end %>
+</ul>

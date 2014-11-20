@@ -47,6 +47,10 @@ class Member < ActiveRecord::Base
     current_membership.membership_type if current_member?
   end
 
+  def type_name
+    membership_type.name if membership_type
+  end
+
   def cost
     current_membership.cost if current_member?
   end
