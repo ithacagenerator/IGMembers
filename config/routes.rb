@@ -12,11 +12,11 @@ SampleApp::Application.routes.draw do
 
 #  resources :membership_types
   resources :memberships, only: [:new, :create, :edit, :update ]
-  
+
 #  resources :users
   resources :sessions, only: [:new, :create, :destroy]
 
-  root to: 'members#dashboard'
+  root to: 'sessions#new'
 
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
