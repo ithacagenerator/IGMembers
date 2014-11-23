@@ -10,7 +10,7 @@
     <ul>
       <% MembershipType.all.each do |type| %>
           <li>
-            <%= @active.count {|m| m.membership_type == type } %> <%= link_to type.name, members_path(type: type.name) %>
+            <%= @active.type(type.name).count %> <%= link_to type.name, members_path(type: type.name) %>
           </li>
       <% end %>
     </ul>

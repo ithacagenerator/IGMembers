@@ -1,4 +1,8 @@
 class Membership < ActiveRecord::Base
+  scope :active_on, ->(date) { where('start <= ? and (end IS NULL or ? <= end)', date, date)}
+  scope :active, -> { active_on(Date.today)}
+  scope :type, -> (type) { joins(:membership_type).where(membership_types: { name: type})}
+
   belongs_to :membership_type
   belongs_to :member
   has_and_belongs_to_many :discounts

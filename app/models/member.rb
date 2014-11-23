@@ -1,22 +1,32 @@
 class Member < ActiveRecord::Base
+  # scopes
+  scope :active, -> (active = true ){ joins(:memberships).merge(Membership.active) if active.present? }
+  scope :type, -> (type) { joins(:memberships).merge(Membership.type(type)) if type.present? }
+  scope :checklist, ->(item) { select{|m| m.current_membership && !m.current_membership.checklist_items.include?(item) } if item.present? }
+
+  # action filters
   before_save {self.email = email.downcase }
 
-  validates :fname, presence: true, length: {maximum: 50 }
-  validates :lname, presence: true, length: {maximum: 50 }
-
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
-
+  # relationships
   has_many :memberships
   has_one :user
   has_and_belongs_to_many :interests
 
+
+  # validations
+  validates :fname, presence: true, length: {maximum: 50 }
+  validates :lname, presence: true, length: {maximum: 50 }
   validates :address, presence: true
   validates :city, presence: true
   validates :state, presence: true
   validates :zip, presence: true
   validates :phone, presence: true
-  validates_uniqueness_of :gnucash_id, :allow_blank => true, :case_sensitive => true
+  validates_uniqueness_of :gnucash_id, allow_blank: true, case_sensitive: true
+
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
+
+  # Alternate accessors
 
   def name
     "#{self.fname} #{self.lname}"
