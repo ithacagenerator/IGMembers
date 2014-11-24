@@ -12,6 +12,12 @@ class MembersController < ApplicationController
     if params[:type]
       @members = @members.select{|m| m.type_name == params[:type]}
     end
+    if params[:discount]
+      @members = @members.select do |m|
+        discount_names = m.current_membership.discounts.collect{|d| d.name}
+        discount_names.include?(params[:discount])
+      end
+    end
     if params[:checklist]
       item = ChecklistItem.find_by_name(params[:checklist])
       if item
@@ -81,6 +87,19 @@ class MembersController < ApplicationController
     @extra = @active.select { |m|    m.type_name == 'Extra' }
     @standard = @active.select { |m|    m.type_name == 'Standard' }
     @basic = @active.select { |m|    m.type_name == 'Basic' }
+
+    #foreach active member, we want a count of members with each discount
+    @discounts =  {}
+    MembershipType.all.each do |mt|
+      @discounts[mt.name] = Hash.new
+      Discount.all.each do |d|
+        @discounts[mt.name][d.name] = @active.count do |m|
+          discount_names = m.current_membership.discounts.collect { |dc| dc.name }
+          m.current_membership.membership_type.name == mt.name && discount_names.include?(d.name)
+        end
+      end
+    end
+
   end
 
   private

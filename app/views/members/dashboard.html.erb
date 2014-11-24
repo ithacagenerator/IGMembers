@@ -6,12 +6,21 @@
     <%= @members.count %> <%= link_to 'Total Member'.pluralize(@members.count), members_path %> (current and former)
   </li>
   <li>
-    <%= @active.count %> <%= link_to 'Active Member'.pluralize(@active.count), members_path(active:true) %>
+    <%= @active.count %> <%= link_to 'Active Member'.pluralize(@active.count), members_path(active: true) %>
     <ul>
       <% MembershipType.all.each do |type| %>
           <li>
             <%= @active.count {|m| m.membership_type == type } %> <%= link_to type.name, members_path(type: type.name) %>
           </li>
+					<ul>
+            <% Discount.all.each do |discount| %>
+              <% if @discounts[type.name][discount.name] != 0 %>
+              <li>
+                <%= @discounts[type.name][discount.name] %> <%= link_to discount.name, members_path(type: type.name, discount: discount.name) %>
+              </li>
+              <% end %>
+            <% end %>
+					</ul>
       <% end %>
     </ul>
   </li>
