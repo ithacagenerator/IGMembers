@@ -3,6 +3,10 @@ class Membership < ActiveRecord::Base
   scope :active, -> { active_on(Date.today)}
   scope :type, -> (type) { joins(:membership_type).where(membership_types: { name: type})}
 
+  # TODO invert sense of membership.checklist_items
+
+  after_create :add_checklist_items
+
   belongs_to :membership_type
   belongs_to :member
   has_and_belongs_to_many :discounts
@@ -97,5 +101,10 @@ class Membership < ActiveRecord::Base
   def member=(the_member)
     self.member_id = the_member.id unless the_member.nil?
     self.enforce_at_most_one_open_membership_for_member
+  end
+
+  def add_checklist_items
+    self.checklist_items = ChecklistItem.all
+    self.save
   end
 end

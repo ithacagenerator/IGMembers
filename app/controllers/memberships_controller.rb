@@ -8,15 +8,10 @@ class MembershipsController < ApplicationController
   end
 
   def create
- #   params[:memberships][:discount_ids] ||= []
- #   params[:memberships][:checklist_item_ids] ||= []
-
-    p = params.require(:membership).permit(:member_id, :membership_type_id,
-      :start, :end, discount_ids: [], checklist_item_ids: [])
+    p = membership_params
 
     @member = Member.find_by_id(p[:member_id])
     @membership = @member.memberships.new(p)
-    @membership.update_attributes p
     if @membership.save
 
       @member.memberships.each do |m|
@@ -36,10 +31,9 @@ class MembershipsController < ApplicationController
   end
 
   def update
-    p = params.require(:membership).permit(:membership_type_id, :start, :end,
-      discount_ids: [], checklist_item_ids: [])
+    p = membership_params
     @membership = Membership.find(params[:id])
-    if @membership.update_attributes(p)
+    if @membership.update(p)
       flash[:success] = 'Membership updated'
       redirect_to @membership.member
     else
@@ -52,6 +46,11 @@ class MembershipsController < ApplicationController
   end
 
   private
+
+  def membership_params
+    params.require(:membership).permit(:member_id, :membership_type_id,
+                                       :start, :end, discount_ids: [], checklist_item_ids: [])
+  end
 
   def set_membership
     @membership = Membership.find(params[:id])
