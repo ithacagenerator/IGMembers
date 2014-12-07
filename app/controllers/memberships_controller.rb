@@ -12,7 +12,7 @@ class MembershipsController < ApplicationController
  #   params[:memberships][:checklist_item_ids] ||= []
 
     p = params.require(:membership).permit(:member_id, :membership_type_id,
-      :start, :end, discount_ids: [], checklist_item_ids: [])
+      :paypal, :start, :end, discount_ids: [], checklist_item_ids: [])
 
     @member = Member.find_by_id(p[:member_id])
     @membership = @member.memberships.new(p)
@@ -36,7 +36,7 @@ class MembershipsController < ApplicationController
   end
 
   def update
-    p = params.require(:membership).permit(:membership_type_id, :start, :end,
+    p = params.require(:membership).permit(:membership_type_id, :paypal, :start, :end,
       discount_ids: [], checklist_item_ids: [])
     @membership = Membership.find(params[:id])
     if @membership.update_attributes(p)
