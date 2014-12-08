@@ -24,6 +24,12 @@
       <% end %>
     </ul>
   </li>
+  <li>
+    <%= @paypal.count %>  <%= link_to "using PayPal", members_path(paypal: true) %>
+  </li>
+  <li>
+    <%= @not_paypal.count %>  <%= link_to "not using PayPal", members_path(paypal: false) %>
+  </li>
 </ul>
 
 <h2>Checklist Items</h2>

@@ -18,6 +18,19 @@ class MembersController < ApplicationController
         discount_names.include?(params[:discount])
       end
     end
+    if params[:paypal]
+      @members = @members.select do |m|
+        if m.current_membership == nil
+          false
+        else
+          if params[:paypal] == "true"
+            m.current_membership.paypal?
+          else # if params[:paypal] == "false"
+            !m.current_membership.paypal?
+          end
+        end
+      end
+    end
     if params[:checklist]
       item = ChecklistItem.find_by_name(params[:checklist])
       if item
@@ -87,6 +100,8 @@ class MembersController < ApplicationController
     @extra = @active.select { |m|    m.type_name == 'Extra' }
     @standard = @active.select { |m|    m.type_name == 'Standard' }
     @basic = @active.select { |m|    m.type_name == 'Basic' }
+    @paypal = @active.select { |m|    m.current_membership.paypal? }
+    @not_paypal = @active.select { |m|    !m.current_membership.paypal? }
 
     #foreach active member, we want a count of members with each discount
     @discounts =  {}
